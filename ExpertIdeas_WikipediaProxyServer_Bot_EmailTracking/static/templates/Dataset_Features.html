@@ -1,0 +1,360 @@
+{% extends 'base.html' %}
+
+<!-- {% block jumbotron %} -->
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+<!--   <div class="jumbotron">
+    <div class="container">
+      <h1>This is us!</h1>
+      <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+      <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
+    </div>
+  </div>
+ -->
+ <!-- {% endblock %} -->
+
+{% block content %}
+
+<div class="table-responsive">
+<h1>The downloaded dataset file includes the following features.</h1>
+<table class="table table-hover table-bordered" style="width:100%">
+  <thead>
+    <tr>
+        <th class="header2">Feature Title</th>
+        <th class="header2">Data Type</th>
+        <th class="alignLeft header2">Feature Description</th>
+    </tr>
+  </thead>
+  <tr>
+    <th class="header2">Domain</th>
+    <td>String</td>
+    <td class="alignLeft">The subject’s domain of expertise</td>
+  </tr>
+  <tr>
+    <th class="header2">Specialization</th>
+    <td>String</td>
+    <td class="alignLeft">The subject’s specialty area that is a subset of the domain of expertise</td>
+  </tr>
+  <tr>
+    <th class="header2">Affiliation</th>
+    <td>String</td>
+    <td class="alignLeft">The subject’s affiliated institution</td>
+  </tr>
+  <tr>
+    <th class="header2">Location</th>
+    <td>String</td>
+    <td class="alignLeft">Country, State, and City of the affiliation</td>
+  </tr>
+  <tr>
+    <th class="header2">Phase 1</th>
+    <td>Boolean</td>
+    <td class="alignLeft">Shows if the subject is in phase 1</td>
+  </tr>
+  <tr>
+    <th class="header2">Phase 2</th>
+    <td>Boolean</td>
+    <td class="alignLeft">Shows if the subject is in phase 2</td>
+  </tr>
+  <tr>
+    <th class="header2">Phase 3</th>
+    <td>Boolean</td>
+    <td class="alignLeft">Shows if the subject is in phase 3</td>
+  </tr>
+  <tr>
+    <th class="header2">Public Benefit</th>
+    <td>Boolean</td>
+    <td class="alignLeft">Shows if the subject is in public benefit condition</td>
+  </tr>
+  <tr>
+    <th class="header2">Private Benefit</th>
+    <td>Boolean</td>
+    <td class="alignLeft">Shows if the subject is in private benefit condition. This feature is 1 if any of the 7 following features have the value of 1.</td>
+  </tr>
+  <tr>
+    <th class="header2">Relevance Factor</th>
+    <td>Boolean</td>
+    <td class="alignLeft">If there is relevance factor in the email. This feature is 1 if “Relevant to Research”, “Within Your Area”, or “On Expertise Topic” have the value of 1.</td>
+  </tr>
+  <tr>
+    <th class="header2">Likely to Cite</th>
+    <td>Boolean</td>
+    <td class="alignLeft">The emails include: "that are likely to cite your research".</td>
+  </tr>
+  <tr>
+    <th class="header2">May Include Reference</th>
+    <td>Boolean</td>
+    <td class="alignLeft">The emails include: "that may include some of your publications in their references".</td>
+  </tr>
+  <tr>
+    <th class="header2">Might Refer to</th>
+    <td>Boolean</td>
+    <td class="alignLeft">The emails include: "that might refer to some of your research".</td>
+  </tr>
+  <tr>
+    <th class="header2">Relevant to Research</th>
+    <td>Boolean</td>
+    <td class="alignLeft">The emails include: "that are relevant to your research".</td>
+  </tr>
+  <tr>
+    <th class="header2">Within Your Area</th>
+    <td>Boolean</td>
+    <td class="alignLeft">The emails include: "that are within your area of expertise".</td>
+  </tr>
+  <tr>
+    <th class="header2">On Expertise Topic</th>
+    <td>Boolean</td>
+    <td class="alignLeft">The emails include: "that are on a topic where you have expertise".</td>
+  </tr>
+  <tr>
+    <th class="header2">Interested</th>
+    <td>Boolean</td>
+    <td class="alignLeft">If the subject has clicked the interested link in the first phase email.</td>
+  </tr>
+  <tr>
+    <th class="header2">Withdrawal</th>
+    <td>Boolean</td>
+    <td class="alignLeft">If the subject has clicked the opt out link in the first phase email.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 1 Opened</th>
+    <td>Boolean</td>
+    <td class="alignLeft">If the subject has opened email 1.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 2 Opened</th>
+    <td>Boolean</td>
+    <td class="alignLeft">If the subject has opened email 2.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 3 Opened</th>
+    <td>Boolean</td>
+    <td class="alignLeft">If the subject has opened email 3.</td>
+  </tr>
+  <tr>
+    <th class="header2"># Links Clicked</th>
+    <td>Integer</td>
+    <td class="alignLeft">The number of recommendation links in the second phase email that the subject has clicked on.</td>
+  </tr>
+  <tr>
+    <th class="header2"># Comments</th>
+    <td>Integer</td>
+    <td class="alignLeft">The number of comments that the subject has provided in through the study page or emails.</td>
+  </tr>
+  <tr>
+    <th class="header2"># Ratings</th>
+    <td>Integer</td>
+    <td class="alignLeft">The number of ratings that the subject has provided only through the study page.</td>
+  </tr>
+  <tr>
+    <th class="header2"># Expertsrefered</th>
+    <td>Integer</td>
+    <td class="alignLeft">The number of other potential subjects that the subject has suggested to contact.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email Communication</th>
+    <td>Boolean</td>
+    <td class="alignLeft">If the subject has communicated with us via email.</td>
+  </tr>
+  <tr>
+    <th class="header2"># Articles Clicked</th>
+    <td>Integer</td>
+    <td class="alignLeft">The number of Wikipedia articles' links in the third phase email that the subject has clicked on.</td>
+  </tr>
+  <tr>
+    <th class="header2"># Talkpages Clicked</th>
+    <td>Integer</td>
+    <td class="alignLeft">The number of Wikipedia Talkpages' links in the third phase email that the subject has clicked on.</td>
+  </tr>
+  <tr>
+    <th class="header2"># Posts Clicked</th>
+    <td>Integer</td>
+    <td class="alignLeft">The number of links to the subjects' posts on the Wikipedia Talkpages in the third phase email that the subject has clicked on.</td>
+  </tr>
+  <tr>
+    <th class="header2"># Tutorials Clicked</th>
+    <td>Integer</td>
+    <td class="alignLeft">The number of tutorial links in the third phase email that the subject has clicked on.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 1 Sent Weekday</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Weekday on which the first phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 2 Sent Weekday</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Weekday on which the second phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 3 Sent Weekday</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Weekday on which the third phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 1 Opened Weekday</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Weekday on which the first phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 2 Opened Weekday</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Weekday on which the second phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 3 Opened Weekday</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Weekday on which the third phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Comment Weekday</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Weekday on which the subject posted their last comment.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 1 Sent Weekday</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Weekday on which the first phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 2 Sent Weekday</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Weekday on which the second phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 3 Sent Weekday</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Weekday on which the third phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 1 Opened Weekday</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Weekday on which the first phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 2 Opened Weekday</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Weekday on which the second phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 3 Opened Weekday</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Weekday on which the third phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Comment Weekday</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Weekday on which the subject posted their last comment.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 1 Sent Year</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Year in which the first phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 2 Sent Year</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Year in which the second phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 3 Sent Year</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Year in which the third phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 1 Opened Year</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Year in which the first phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 2 Opened Year</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Year in which the second phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 3 Opened Year</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Year in which the third phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Comment Year</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Year in which the subject posted their last comment.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 1 Sent Month</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Month in which the first phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 2 Sent Month</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Month in which the second phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 3 Sent Month</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Month in which the third phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 1 Opened Month</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Month in which the first phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 2 Opened Month</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Month in which the second phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 3 Opened Month</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Month in which the third phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Comment Month</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Month in which the subject posted their last comment.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 1 Sent Day</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Day in which the first phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 2 Sent Day</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Day in which the second phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 3 Sent Day</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Day in which the third phase email was sent.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 1 Opened Day</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Day in which the first phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 2 Opened Day</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Day in which the second phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Email 3 Opened Day</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Day in which the third phase email was opened.</td>
+  </tr>
+  <tr>
+    <th class="header2">Comment Day</th>
+    <td>Integer</td>
+    <td class="alignLeft">The Day in which the subject posted their last comment.</td>
+  </tr>
+  <tr>
+    <th class="header2">User Agent</th>
+    <td>String</td>
+    <td class="alignLeft">The subject's user agent indentified while interacting with our system, which includes the hardware system, the operating system, and the browser specifications.</td>
+  </tr>
+</table>
+</div>
+
+{% endblock %}

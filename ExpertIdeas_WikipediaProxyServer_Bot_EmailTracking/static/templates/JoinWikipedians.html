@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<!-- <link href="{{STATIC_URL}}static/javascript/perfect-scrollbar.min.css" rel="stylesheet">
+<script src="{{STATIC_URL}}static/javascript/perfect-scrollbar.min.js"></script>
+ -->
+<!-- <script src="mediawiki.js"></script>
+ -->
+<style>
+    @import url(http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css);
+
+    body, html {
+      overflow:hidden;
+    }
+
+    #pageFrame, #pageFrameDIV {
+        position:absolute;
+        left: 0px;
+        top: 0px;
+        width: 50%;
+        height: 100%;
+    }
+    #leftSlider {
+        left: -260px;
+        top: 4px;
+        width: 220px;
+        height: 191px;
+        overflow: auto;
+        font-size: 14px;
+    }
+    #leftButton {
+        position: fixed;
+        left: -97px;
+        top: 25px;
+        width: 70px;
+        transform:rotate(270deg);
+        -ms-transform:rotate(270deg); /* IE 9 */
+        -webkit-transform:rotate(270deg); /* Opera, Chrome, and Safari */
+    }
+    #topSlider {
+        left: 25px;
+        top: -100px;
+        width: 200px;
+    }
+    #topSlider .content, #leftSlider .content {
+        color: black;
+    }
+    #topSlider .content {
+        padding: 16px;
+        padding-bottom: 0px;
+    }
+    #leftSlider .content {
+        padding: 4px;
+        padding-top: 7px;
+    }
+    #topButton {
+        position: fixed;
+        left: 25px;
+        top: -6px;
+        width: 172px;
+    }
+    .slider {
+        position: fixed;
+        background: #ECECEC;
+        border-radius: 13px;
+        -webkit-border-radius: 13px;
+        -moz-border-radius: 13px;
+        padding: 10px 20px;
+        display: block;
+        font-family: arial;
+        color:#7f7f7f;
+        text-decoration: none;
+        text-shadow:0px 1px 0px #fff;
+        border:1px solid #a7a7a7;
+        box-shadow: 0px 2px 1px white inset, 0px -2px 8px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
+        -webkit-transition:box-shadow 0.5s;
+    }
+    a.button{
+        background: #ECECEC;
+        border-radius: 13px;
+        -webkit-border-radius: 13px;
+        -moz-border-radius: 13px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-right: 20px;
+        padding-left: 20px;
+        display: inline-block;
+        font-family: arial;
+        font-weight: bold;
+        color:#7f7f7f;
+        text-decoration: none;
+        text-shadow:0px 1px 0px #fff;
+        text-align:center;
+        border:1px solid #a7a7a7;
+        box-shadow: 0px 2px 1px white inset, 0px -2px 8px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
+        -webkit-transition:box-shadow 0.5s;
+    }
+    div.logo{
+        background: #AAAAAA;
+        border-radius: 13px;
+        -webkit-border-radius: 13px;
+        -moz-border-radius: 13px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 20px;
+        border:1px solid #a7a7a7;
+        box-shadow: 0px 2px 1px white inset, 0px -2px 8px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
+        -webkit-transition:box-shadow 0.5s;
+    }
+    a.button i{
+        float: right;
+        margin-top: 0px;
+    }
+    a.button:hover{
+        box-shadow: 0px 2px 1px white inset, 0px -2px 20px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
+    }
+    a.button:active{
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset, 0px -2px 20px white, 0px 1px 5px rgba(0, 0, 0, 0.1), 0px 2px 10px rgba(0, 0, 0, 0.1);
+        background:-webkit-linear-gradient(top, #d1d1d1 0%,#ECECEC 100%);
+    }
+
+    #ratingForm {
+        margin-top: 19px;
+    }
+    #ratingForm span {
+        vertical-align:16px;
+    }
+    .rating {
+        border: 0;
+        display:inline-block;
+    }
+    /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
+       follow these rules. Every browser that supports :checked also supports :not(), so
+       it doesn’t make the test unnecessarily selective */
+    .rating:not(:checked) > input {
+        position:absolute;
+        top:-9999px;
+        clip:rect(0,0,0,0);
+    }
+
+    .rating:not(:checked) > label {
+        float:right;
+        width:1em;
+        padding:0 .1em;
+        overflow:hidden;
+        white-space:nowrap;
+        cursor:pointer;
+        font-size:160%;
+        line-height:1.2;
+        color:#ddd;
+        text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+    }
+
+    .rating:not(:checked) > label:before {
+        content: '★ ';
+    }
+
+    .rating > input:checked ~ label {
+        color: #f70;
+        text-shadow:1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
+    }
+
+    .rating:not(:checked) > label:hover,
+    .rating:not(:checked) > label:hover ~ label {
+        color: gold;
+        text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+    }
+
+    .rating > input:checked + label:hover,
+    .rating > input:checked + label:hover ~ label,
+    .rating > input:checked ~ label:hover,
+    .rating > input:checked ~ label:hover ~ label,
+    .rating > label:hover ~ input:checked ~ label {
+        color: #ea0;
+        text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+    }
+
+    .rating > label:active {
+        position:relative;
+        top:2px;
+        left:2px;
+    }
+
+    inputs:-webkit-input-placeholder { 
+        color:    #b5b5b5; 
+    }
+
+    inputs-moz-placeholder { 
+        color:    #b5b5b5; 
+    }
+
+    .inputs {
+        margin-bottom: 10px;
+        padding: 7px 13px; 
+        font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+        font-weight: 400; 
+        font-size: 14px; 
+        color: #9D9E9E; 
+        text-shadow: 1px 1px 0 rgba(256, 256, 256, 1.0); 
+        background: #FFF; 
+        border: 1px solid #FFF; 
+        border-radius: 5px; 
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.50); 
+        -moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50); 
+        -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.50); 
+    }
+
+    .inputs:focus { 
+        background: #DFE9EC; 
+        color: #414848; 
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25); 
+        -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25); 
+        -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25); 
+        outline:0; 
+    }
+
+    .inputs:hover { 
+        background: #DFE9EC; 
+        color: #414848; 
+    }
+
+    .error {
+        color: red;
+        display: none;
+        padding: 15px;
+        background-color: #f2dede;
+        margin-top: 10px;
+        border-radius: 5px; 
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.50); 
+        -moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50); 
+        -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.50); 
+    }
+
+    .success {
+        display: none;
+        color: green;
+        padding: 15px;
+        background-color: #dff0d8;
+        margin-top: 10px;
+        border-radius: 5px; 
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.50); 
+        -moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50); 
+        -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.50); 
+    }
+    #ResizerBar {
+        visibility: visible;
+        width: 10px;
+        height: 100%;
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        cursor: ew-resize;
+    }
+    </style>
+</head>
+<body>
+
+<iframe id="pageFrame" style="border:none;" width="50%" height="100%" src="wikipediaproxy/?wikipediaurl={{ wikipageUrl }}&userpage={{ userpage }}">Iframes are not supported on your device. Please provide us with your comment on the Wikipedia page: {{ wikipageUrl }}</iframe>
+<div id="pageFrameDIV" style="display: none;" width="50%" height="100%"></div>
+
+<a id="leftButton" href="#" class="button">Slide<i class="icon-chevron-up"></i></a>
+<div id="leftSlider" class="slider">
+    <div class="content">
+        <div class="logo">
+            <img src="{{ MEDIA_URL }}logo.png" alt="University of Michigan - School of Information Logo" width="460" height="42">
+        </div>
+
+        <p>
+            Dear {{ title }} {{ expertName }}, <br><br>
+            By giving us feedback about the Wikipedia article to the right, you will help improve the quality of Wikipedia. Please rate the article and add suggestions for improvement. <br><br>
+            Once you submit your comment, we will post your comments so that Wikipedians following this page will be notified about your feedback.
+        </p>
+        <form id="ratingForm" action="#" method="post">
+            <span>Overall quality: </span>
+            <div>
+                <span>Poor </span>
+                <fieldset class="rating">
+                    <input type="radio" id="star7" name="rating" value="7" /><label for="star7" title="7 Stars">7 stars</label>
+                    <input type="radio" id="star6" name="rating" value="6" /><label for="star6" title="6 Stars">6 stars</label>
+                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 Stars">5 stars</label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 Stars">4 stars</label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 Stars">3 stars</label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 Stars">2 stars</label>
+                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 Star">1 star</label>
+                </fieldset>
+                <span> Excellent</span>
+            </div>
+            <p class="success" id="RatingSuccess">Thank you for your rating.<br></p>
+        </form>
+        <p>If you see any inaccuracies, wrong interpretations, or omissions in the article, please copy and paste the original paragraph, followed by your comments or changes. You can also indicate how to update the article with new developments in the field.  It is extremely important to support your comments with references.</p>
+        <form action="" method="post" id="feedbackForm">
+            <textarea class="inputs" style="width:97%;" id="ExpertComment" rows="7" placeholder="Please enter your comment here.">{% if comment != '' and comment != None and comment != 'None' %} {{ comment }} {% endif %}</textarea>
+            <p class="error AuthorsEmailSubmitError">Please check validity of email addresses you have entered!</p>
+            <a href="" class="button Submit" id="feedbackSubmit">Submit Comment</a>
+            <p class="success" id="SubmitSuccess1">Thank you for your comments.<br></p>
+        </form>
+<!--        {% if otherexperts|length > 0 %}
+            We have also contacted the following scholars:
+            <br><br>
+            {% for obj in otherexperts %}
+                {{ obj.name }} <i>{{ obj.email }}</i>
+                <br><br>
+            {% endfor %}
+        {% endif %}-->
+        <p>We'd appreciate it if you refer us to other scholars who can potentially improve this article.</p>
+        <form action="" method="post" id="refereesForm">
+            <input type="text" id="AuthorFirstName0" name="AuthorFirstName0" class="inputs" placeholder="First name" />
+            <input type="text" id="AuthorName0" name="AuthorName0" class="inputs" placeholder="Last name" />
+            <input type="text" id="AuthorSchool0" name="AuthorSchool0" class="inputs" placeholder="University/Organization" />
+    <!--        <input type="text" id="AuthorEmail0" name="AuthorEmail0" class="inputs emailInput" placeholder="E-mail" />
+            <p class="error" id="AuthorEmailError0">Please enter a valid email address!</p> -->
+            <input type="text" id="AuthorSpecialization0" name="AuthorSpecialization0" class="inputs" placeholder="Specialty Area" />
+            <a href="#" id="AddScholar" class="button">Add More Scholars</a>
+            <br><br>
+    <!--        <p class="error AuthorsEmailSubmitError">Please check validity of email addresses you have entered!</p>
+     -->        <a href="" class="button Submit" id="refereesSubmit">Submit Reference</a>
+            <p class="success" id="SubmitSuccess2">Thank you for providing us with this information.<br></p>
+        </form>
+        <hr>
+        <p>&copy; 2016 Regents of the University of Michigan</p>
+    </div>
+</div>
+<div id="ResizerBar"></div>
+
+<script>
+$(document).ready(function(){
+    // $( "#leftSlider" ).resizable();
+    // $('#leftSlider').perfectScrollbar();
+
+    $("#feedbackSubmit").click(function ( event ) {
+        // Stop form from submitting normally
+        event.preventDefault();
+
+        $( "#feedbackForm" ).submit();
+    });
+
+    $("#refereesSubmit").click(function ( event ) {
+        // Stop form from submitting normally
+        event.preventDefault();
+
+        $( "#refereesForm" ).submit();
+    });
+
+    // Attach a submit handler to the form
+    $( "#feedbackForm" ).submit(function( event ) {
+     
+        // Stop form from submitting normally
+        event.preventDefault();
+
+        // Get some values from elements on the page:
+        // var $form = $( this );
+        feedback = $('#ExpertComment').val();
+
+        // Send the data using post
+        var jqxhr = $.post( "JoinWikipedians", { 'feedback': feedback, 'userpage': {{ userpage }} })
+            .done(function() {
+                $("#SubmitSuccess1").show();
+                // $("#SubmitSuccess1").fadeOut( 10000 );
+            })
+            .fail(function() {
+                alert("Unfortunately your feedback has not been received. Please submit your feedback again. If you have seen this message repeatedly, please make sure you are connected to the Internet, Refresh the page and Submit your feedback again. Also, please feel free to contact us at: oneweb@umich.edu");
+            });
+    });
+
+    // Attach a submit handler to the form
+    $( "#refereesForm" ).submit(function( event ) {
+     
+        // Stop form from submitting normally
+        event.preventDefault();
+
+        var authorList = [];
+        var emailsAreOK = true;
+        var authorCounter = 0;
+        var authorName = $("#AuthorName" + authorCounter);
+        while (authorName && authorName != null && authorName.val() && authorName.val() != "") {
+            var authorFirstName = $("#AuthorFirstName" + authorCounter);
+            var authorSpecialization = $("#AuthorSpecialization" + authorCounter);
+            var authorSchool = $("#AuthorSchool" + authorCounter);
+            // var authorEmail = $("#AuthorEmail" + authorCounter);
+         //    if (!isValidEmailAddress(authorEmail.val())) {
+         //     $("#AuthorEmailError" + authorCounter).show();
+         //     $(".AuthorsEmailSubmitError").show();
+         //     emailsAreOK = false;
+         //    }
+            authorList[authorList.length] = {"Name": authorName.val(), "FirstName": authorFirstName.val(), "School": authorSchool.val(), "Specialization": authorSpecialization.val()};
+            // authorList[authorList.length] = {"Name": authorName.val(), "Email": authorEmail.val(), "Specialization": authorSpecialization.val()};
+            authorCounter++;
+            authorName = $("#AuthorName" + authorCounter);
+        }
+
+        if (emailsAreOK) {
+            // Send the data using post
+            var jqxhr = $.post( "JoinWikipedians", { 'authorlist': authorList, 'userpage': {{ userpage }} })
+                .done(function() {
+                    $("#SubmitSuccess2").show();
+                    // $("#SubmitSuccess2").fadeOut( 10000 );
+                })
+                .fail(function() {
+                    alert("Unfortunately your feedback has not been received. Please submit your feedback again. If you have seen this message repeatedly, please make sure you are connected to the Internet, Refresh the page and Submit your feedback again. Also, please feel free to contact us at: oneweb@umich.edu");
+                });
+        }
+    });
+
+    // Attach a click handler to the star
+    $( "#star1" ).click(function( event ) {
+     
+        // Send the data using post
+        var jqxhr = $.post( "JoinWikipedians", { 'rating': $(this).val(), 'userpage': {{ userpage }} })
+            .done(function() {
+                $("#RatingSuccess").show();
+                $("#RatingSuccess").fadeOut( 10000 );
+            })
+            .fail(function() {
+            alert( "Unfortunately your rating has not been received. Please submit your rating again. If you have seen this message repeatedly, please make sure you are connected to the Internet, Refresh the page and click on your desired rating again. Also, please feel free to contact us at: oneweb@umich.edu" );
+            })
+    });
+
+    // Attach a click handler to the star
+    $( "#star2" ).click(function( event ) {
+     
+        // Send the data using post
+        var jqxhr = $.post( "JoinWikipedians", { 'rating': $(this).val(), 'userpage': {{ userpage }} })
+            .done(function() {
+                $("#RatingSuccess").show();
+                $("#RatingSuccess").fadeOut( 10000 );
+            })
+            .fail(function() {
+            alert( "Unfortunately your rating has not been received. Please submit your rating again. If you have seen this message repeatedly, please make sure you are connected to the Internet, Refresh the page and click on your desired rating again. Also, please feel free to contact us at: oneweb@umich.edu" );
+            })
+    });
+
+    // Attach a click handler to the star
+    $( "#star3" ).click(function( event ) {
+     
+        // Send the data using post
+        var jqxhr = $.post( "JoinWikipedians", { 'rating': $(this).val(), 'userpage': {{ userpage }} })
+            .done(function() {
+                $("#RatingSuccess").show();
+                $("#RatingSuccess").fadeOut( 10000 );
+            })
+            .fail(function() {
+            alert( "Unfortunately your rating has not been received. Please submit your rating again. If you have seen this message repeatedly, please make sure you are connected to the Internet, Refresh the page and click on your desired rating again. Also, please feel free to contact us at: oneweb@umich.edu" );
+            })
+    });
+
+    // Attach a click handler to the star
+    $( "#star4" ).click(function( event ) {
+     
+        // Send the data using post
+        var jqxhr = $.post( "JoinWikipedians", { 'rating': $(this).val(), 'userpage': {{ userpage }} })
+            .done(function() {
+                $("#RatingSuccess").show();
+                $("#RatingSuccess").fadeOut( 10000 );
+            })
+            .fail(function() {
+            alert( "Unfortunately your rating has not been received. Please submit your rating again. If you have seen this message repeatedly, please make sure you are connected to the Internet, Refresh the page and click on your desired rating again. Also, please feel free to contact us at: oneweb@umich.edu" );
+            })
+    });
+
+    // Attach a click handler to the star
+    $( "#star5" ).click(function( event ) {
+     
+        // Send the data using post
+        var jqxhr = $.post( "JoinWikipedians", { 'rating': $(this).val(), 'userpage': {{ userpage }} })
+            .done(function() {
+                $("#RatingSuccess").show();
+                $("#RatingSuccess").fadeOut( 10000 );
+            })
+            .fail(function() {
+            alert( "Unfortunately your rating has not been received. Please submit your rating again. If you have seen this message repeatedly, please make sure you are connected to the Internet, Refresh the page and click on your desired rating again. Also, please feel free to contact us at: oneweb@umich.edu" );
+            })
+    });
+
+    // Attach a click handler to the star
+    $( "#star6" ).click(function( event ) {
+     
+        // Send the data using post
+        var jqxhr = $.post( "JoinWikipedians", { 'rating': $(this).val(), 'userpage': {{ userpage }} })
+            .done(function() {
+                $("#RatingSuccess").show();
+                $("#RatingSuccess").fadeOut( 10000 );
+            })
+            .fail(function() {
+            alert( "Unfortunately your rating has not been received. Please submit your rating again. If you have seen this message repeatedly, please make sure you are connected to the Internet, Refresh the page and click on your desired rating again. Also, please feel free to contact us at: oneweb@umich.edu" );
+            })
+    });
+
+    // Attach a click handler to the star
+    $( "#star7" ).click(function( event ) {
+     
+        // Send the data using post
+        var jqxhr = $.post( "JoinWikipedians", { 'rating': $(this).val(), 'userpage': {{ userpage }} })
+            .done(function() {
+                $("#RatingSuccess").show();
+                $("#RatingSuccess").fadeOut( 10000 );
+            })
+            .fail(function() {
+            alert( "Unfortunately your rating has not been received. Please submit your rating again. If you have seen this message repeatedly, please make sure you are connected to the Internet, Refresh the page and click on your desired rating again. Also, please feel free to contact us at: oneweb@umich.edu" );
+            })
+    });
+
+    var leftSiderOpen = true;
+
+    fixSizes();
+
+    $( window ).resize(fixSizes);
+
+    function fixSizes() {
+        // Returns width of browser viewport
+        var windowWidth = $( window ).width();
+        
+        // Returns height of HTML document
+        var windowHeight = $( window ).height();
+
+        $("#ratingBox").css("left", (windowWidth - $("#ratingBox").width()) / 2);
+
+        $("#leftSlider").css("height", windowHeight - 31);
+
+        $("#leftSlider").css("width", windowWidth / 2 - 52);
+
+        if (leftSiderOpen) {
+            $("#leftSlider").css("left", -13);
+            $("#leftButton").css("left", $("#leftSlider").width() - 16);
+            $("#pageFrame").css("left", windowWidth / 2 - 22);
+            $("#pageFrame").css("width", windowWidth / 2 + 22);
+            $("#ResizerBar").css("left", windowWidth / 2 - 22);
+        }
+        else {
+            $("#leftSlider").css("left", -37 - $("#leftSlider").width());
+            $("#leftButton").css("left", -40);
+            $("#pageFrame").css("left", "0");
+            $("#pageFrame").css("width", "100%");
+            $("#ResizerBar").css("left", "0");
+        }
+
+        $("#leftButton").css("top", (windowHeight - $("#leftButton").height()) / 2);
+    }
+
+    $("#leftButton").click(function() {
+        var windowWidth = $( window ).width();
+        var leftSiderWidth = $("#leftSlider").width();
+        var movement = leftSiderWidth + 22;
+        $("#leftSlider").css("width", windowWidth / 2 - 52);
+        if (!leftSiderOpen) {
+            $(this).css("left", $("#leftSlider").width() - 16);
+            $(this).find( "i" ).removeClass( "icon-chevron-down" ).addClass( "icon-chevron-up" );
+            $("#leftSlider").css("left", -13);
+            $("#pageFrame").css("left", windowWidth / 2 - 22);
+            $("#pageFrame").css("width", windowWidth / 2 + 22);
+            $("#ResizerBar").css("left", windowWidth / 2 - 22);
+            leftSiderOpen = true;
+        }
+        else {
+            $(this).css("left", -40);
+            $(this).find( "i" ).removeClass( "icon-chevron-up" ).addClass( "icon-chevron-down" );
+            $("#leftSlider").css("left", -37 - $("#leftSlider").width());
+            $("#pageFrame").css("left", "0");
+            $("#pageFrame").css("width", "100%");
+            $("#ResizerBar").css("left", "0");
+            leftSiderOpen = false;
+        }
+    });
+
+    $("#ResizerBar").draggable({ 
+        axis: "x",
+        drag: function( event, ui ) {
+            var windowWidth = $( window ).width() / 2;
+            var leftSiderWidth = $("#leftSlider").width();
+            var movement = ui.offset.left - windowWidth + 22;
+            $("#pageFrameDIV").css("display", "");
+            if (leftSiderOpen) {
+                $("#leftSlider").css("width", windowWidth - 52 + movement);
+                $("#leftButton").css("left", $("#leftSlider").width() - 16);
+                $("#pageFrame").css("left", windowWidth - 22 + movement);
+                $("#pageFrame").css("width", windowWidth + 22 - movement);
+                $("#pageFrameDIV").css("left", windowWidth - 22 + movement);
+                $("#pageFrameDIV").css("width", windowWidth + 22 - movement);
+            }
+        }
+    });
+
+    $( document ).mouseup(function() {
+        $("#pageFrameDIV").css("display", "none");
+    });
+
+    var RefereesNumber = 1;
+
+    $("#AddScholar").click(function () {
+        $("#SubmitSuccess2").hide( );
+        var newInput = $( "<input></input>" ).attr({ type: 'text', id: 'AuthorName' + RefereesNumber, name: 'AuthorName' + RefereesNumber, placeholder: 'Last name' }).addClass( "inputs" );
+        $( this ).before( "<br>" );
+        $( this ).before( newInput );
+        var newInput = $( "<input></input>" ).attr({ type: 'text', id: 'AuthorFirstName' + RefereesNumber, name: 'AuthorFirstName' + RefereesNumber, placeholder: 'First name' }).addClass( "inputs" );
+        $( this ).before( newInput );
+        var newInput = $( "<input></input>" ).attr({ type: 'text', id: 'AuthorSchool' + RefereesNumber, name: 'AuthorSchool' + RefereesNumber, placeholder: 'University/Organization' }).addClass( "inputs" );
+        $( this ).before( newInput );
+        // var newInput = $( "<input></input>" ).attr({ type: 'text', id: 'AuthorEmail' + RefereesNumber, name: 'AuthorEmail' + RefereesNumber, placeholder: 'E-mail' }).addClass( "inputs emailInput" );
+        // $( this ).before( newInput );
+        // var newError = $( "<p></p>" ).attr({ id: 'AuthorEmailError' + RefereesNumber }).addClass( "error" ).text("Please enter a valid email address!");
+        // $( this ).before( newError );
+        var newInput = $( "<input></input>" ).attr({ type: 'text', id: 'AuthorSpecialization' + RefereesNumber, name: 'AuthorSpecialization' + RefereesNumber, placeholder: 'Specialty Area' }).addClass( "inputs" );
+        $( this ).before( newInput );
+    });
+
+    $(document).on("blur", ".emailInput", function () {
+        $(".AuthorsEmailSubmitError").hide();
+        var inputValue = $(this).val();
+        if (inputValue != '' && !isValidEmailAddress(inputValue)) {
+            $(this).next("p.error").show();
+        }
+        else {
+            $(this).next("p.error").hide();
+        }
+    });
+
+    function isValidEmailAddress(emailAddress) {
+        var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+        return pattern.test(emailAddress);
+    };
+    $("#ExpertComment").on("focus", function () {
+        $("#SubmitSuccess1").hide( );
+    });
+    $(document).on("focus", ".inputs", function () {
+        $("#SubmitSuccess2").hide( );
+    });
+
+});
+</script>
+
+<!-- <iframe width="400" height="400"></iframe>
+ -->
+<!--<script>
+$(document).ready(function(){
+    $.ajax({
+
+        url: 'https://en.wikipedia.org/w/api.php?action=query&prop=info%7Crevisions&intoken=edit&titles=Main%20Page',
+        type: 'GET',
+        crossDomain: true,
+        success: function() { alert("Success"); },
+        error: function() { alert('Failed!'); },
+    });
+});
+// $('iframe').load(function(){
+//   // $(this).contents().find("body").on('click', function(event) { alert('test'); });
+//   alert($(this).contents().find("#mainLeaderboard"));
+// });
+// $('iframe').attr("src","http://www.w3schools.com/tags/default.asp");
+</script>-->
+
+</body>
+</html>

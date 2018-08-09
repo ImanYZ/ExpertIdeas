@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Wikipedia Pages dataset</title>
+  </head>
+
+  <body>
+<!--     <form action='#' method='post'>
+      Enter the file path:
+      <input type="text" id="FilePath" name="FilePath" />
+      <input type="text" id="studyDomain" name="studyDomain" />
+      <inpyt type="submit" />
+    </form>
+ -->    <form enctype="multipart/form-data" action='#' method='post'> {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" />
+    </form>
+    <script>
+    </script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  </body>
+</html>

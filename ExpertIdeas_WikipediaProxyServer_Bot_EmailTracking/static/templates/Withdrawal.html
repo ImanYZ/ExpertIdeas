@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+<!--     <link rel="icon" href="../../favicon.ico"> -->
+
+    <title>Withdrawal Page</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="http://getbootstrap.com/examples/cover/cover.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="view-source:http://getbootstrap.com/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href='http://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
+    <style>
+      h1 {
+        font-size: 19px;
+      }
+      br {
+        line-height: 130%;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div style="padding: 10px;">
+          <img src="{{ MEDIA_URL }}logo.png" alt="University of Michigan - School of Information Logo" width="460" height="42">
+        </div>
+
+        <div class="cover-container">
+
+          <div style="text-align: left;">
+            <h1 class="cover-heading">Dear {{ title }} {{ name }},</h1>
+            <h1 class="cover-heading">We are sorry that you are not able to contribute to Wikipedia at the moment.</h1>
+            <h1 class="cover-heading">You can always contact us if you are interested by replying to our email or clicking the "Yes" link in the email.</h1>
+            <!-- <h1 class="cover-heading">We'd appreciate it if you let us know why you are opting out?<br><br>
+            <form action="">
+              <input type="checkbox" name="lackOfTime" > I don’t have time.<br>
+              <input type="checkbox" name="noIncentive" > I don’t have any incentive to contribute.</input><br>
+              <input type="checkbox" name="directEditPreferred" > I prefer to directly edit the Wikipedia article.</input><br>
+              <input type="checkbox" name="anonymousPreferred" > I prefer to edit Wikipedia anonymously.</input><br>
+              <input type="checkbox" name="noBelief" > I don’t believe in Wikipedia.</input><br><br>
+              <p>In case there is another reason, please inform us about it and your comments in the following box:</p><br>
+              <textarea class="form-control" style="width:97%;" id="ExpertComment" rows="7" placeholder="Please enter your comment here."></textarea><br>
+              <h1>We'd appreciate it if you refer us to other scholars who can potentially improve this article.</h1>
+              <input type="text" id="AuthorFirstName0" name="AuthorFirstName0" class="form-control" placeholder="First name" /><br>
+              <input type="text" id="AuthorName0" name="AuthorName0" class="form-control" placeholder="Last name" /><br>
+              <input type="text" id="AuthorSchool0" name="AuthorSchool0" class="form-control" placeholder="University/Organization" /><br>-->
+      <!--        <input type="text" id="AuthorEmail0" name="AuthorEmail0" class="inputs emailInput" placeholder="E-mail" />
+              <p class="error" id="AuthorEmailError0">Please enter a valid email address!</p> -->
+              <!-- <input type="text" id="AuthorSpecialization0" name="AuthorSpecialization0" class="form-control" placeholder="Specialty Area" /><br>
+              <a href="#" id="AddScholar" class="btn btn-warning btn-lg pull-right">Add More Scholars</a>
+              <br><br>-->
+      <!--        <p class="error AuthorsEmailSubmitError">Please check validity of email addresses you have entered!</p>
+              <a href="" class="button Submit" id="refereesSubmit">Submit Reference</a> -->
+              <!-- <p>Please submit the form by clicking the submit button.<br></p>
+              <p class="success" id="SubmitSuccess2" style="display:none; ">Thank you for providing us with this information.<br></p>
+              <input type="submit" class="btn btn-success btn-lg" value="submit">
+            </form>
+            </h1><br>-->
+            <br>
+            <h1 class="cover-heading">Sincerely,</h1>
+            <p class="cover-heading">Yan Chen, Daniel Kahneman Collegiate Professor of Information, University of Michigan</p>
+<!--             <p class="cover-heading">Rosta Farzan, Assistant Professor of Information, University of Pittsburgh</p> -->
+            <p class="cover-heading">Robert Kraut, Herbert A. Simon Professor of Human-Computer Interaction, Carnegie Mellon University</p>
+            <br>
+            <hr>
+            <p class="cover-heading">&copy; 2016 Regents of the University of Michigan</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+      $(document).ready(function(){
+
+          var RefereesNumber = 1;
+
+          $("#AddScholar").click(function ( event ) {
+
+              // Stop form from submitting normally
+              event.preventDefault();
+
+              $("#SubmitSuccess2").hide( );
+              var newInput = $( "<input></input>" ).attr({ type: 'text', id: 'AuthorName' + RefereesNumber, name: 'AuthorName' + RefereesNumber, placeholder: 'Last name' }).addClass( "form-control" );
+              $( this ).before( "<br>" );
+              $( this ).before( newInput );
+              $( this ).before( "<br>" );
+              var newInput = $( "<input></input>" ).attr({ type: 'text', id: 'AuthorFirstName' + RefereesNumber, name: 'AuthorFirstName' + RefereesNumber, placeholder: 'First name' }).addClass( "form-control" );
+              $( this ).before( newInput );
+              $( this ).before( "<br>" );
+              var newInput = $( "<input></input>" ).attr({ type: 'text', id: 'AuthorSchool' + RefereesNumber, name: 'AuthorSchool' + RefereesNumber, placeholder: 'University/Organization' }).addClass( "form-control" );
+              $( this ).before( newInput );
+              $( this ).before( "<br>" );
+              // var newInput = $( "<input></input>" ).attr({ type: 'text', id: 'AuthorEmail' + RefereesNumber, name: 'AuthorEmail' + RefereesNumber, placeholder: 'E-mail' }).addClass( "inputs emailInput" );
+              // $( this ).before( newInput );
+              // var newError = $( "<p></p>" ).attr({ id: 'AuthorEmailError' + RefereesNumber }).addClass( "error" ).text("Please enter a valid email address!");
+              // $( this ).before( newError );
+              var newInput = $( "<input></input>" ).attr({ type: 'text', id: 'AuthorSpecialization' + RefereesNumber, name: 'AuthorSpecialization' + RefereesNumber, placeholder: 'Specialty Area' }).addClass( "form-control" );
+              $( this ).before( newInput );
+              $( this ).before( "<br>" );
+          });
+
+          $(document).on("blur", ".emailInput", function () {
+              $(".AuthorsEmailSubmitError").hide();
+              var inputValue = $(this).val();
+              if (inputValue != '' && !isValidEmailAddress(inputValue)) {
+                  $(this).next("p.error").show();
+              }
+              else {
+                  $(this).next("p.error").hide();
+              }
+          });
+
+          $(document).on("focus", ".inputs", function () {
+              $("#SubmitSuccess2").hide( );
+          });
+
+      });
+    </script>
+
+  </body>
+</html>

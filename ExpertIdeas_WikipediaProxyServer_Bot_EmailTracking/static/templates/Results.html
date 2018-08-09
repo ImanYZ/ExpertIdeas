@@ -1,0 +1,1734 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p><h1>{% if version == 0 or version == 1 %} Pilot {{ version|add:"1" }} {% else %} Main Study {% endif %} Total Results</h1></p>
+
+<div class="table-responsive">
+<table class="table table-hover table-bordered">
+  <tr>
+    <th class="header1">Total # Email 1 Sent</th>
+    <th class="header1">Total # Email 1 Opened</th>
+    <th class="header1">Total # Positive Responses</th>
+    <th class="header1">Total # Negative 1 Responses</th>
+    <th class="header1">Total # Email 2 Sent</th>
+    <th class="header1">Total # Email 2 Opened</th>
+  </tr>
+  <tr>
+    <td>{{ totalEmail1Sent }}</td>
+    <td>{{ totalEmail1Opened }}</td>
+    <td>{{ totalPositiveResponses }}</td>
+    <td>{{ totalNegative1Responses }}</td>
+    <td>{{ totalEmail2Sent }}</td>
+    <td>{{ totalEmail2Opened }}</td>
+  </tr>
+
+  <tr>
+    <td> </td>
+  </tr>
+
+  <tr>
+    <th class="header1">Total # Links Clicked</th>
+    <th class="header1">Total # Negative 2 Responses</th>
+    <th class="header1">Total # Comments</th>
+    <th class="header1">Total # Ratings</th>
+    <th class="header1">Total # Referees</th>
+    <th class="header1">Total # Email Communication</th>
+  </tr>
+  <tr>
+    <td>{{ totalLinksClickedNum }}</td>
+    <td>{{ totalNegative2Responses }}</td>
+    <td>{{ totalCommentsNum }}</td>
+    <td>{{ totalRatingsNum }}</td>
+    <td>{{ totalRefereesNum }}</td>
+    <td>{{ totalEmailCommunicationNum }}</td>
+  </tr>
+
+  <tr>
+    <td> </td>
+  </tr>
+
+  <tr>
+    <th class="header1">Total # Email 3 Opened</th>
+    <th class="header1">Total # Article Clicked</th>
+    <th class="header1">Total # Talkpage Clicked</th>
+    <th class="header1">Total # Post Clicked</th>
+    <th class="header1">Total # Tutorial Clicked</th>
+  </tr>
+  <tr>
+    <td>{{ totalEmail3Opened }}</td>
+    <td>{{ totalArticle_clicked }}</td>
+    <td>{{ totalTalkpage_clicked }}</td>
+    <td>{{ totalPost_clicked }}</td>
+    <td>{{ totalTutorial_clicked }}</td>
+  </tr>
+</table>
+
+<p><h1>Phase I Results</h1></p>
+
+<table class="table table-hover table-bordered">
+  <thead>
+    <tr>
+        <th class="title">Phase I</th>
+        <th class="header1">Variable</th>
+        <th class="header1">No Private Benefit</th>
+        <th class="header1">Private Benefit</th>
+        {% if version == 1 %}
+            <th class="header1">Relevance Benefit</th>
+            <th class="header1">Citation Benefit</th>
+            <th class="header1">Relevant to Research</th>
+            <th class="header1">Within Area</th>
+            <th class="header1">On Expertise Topic</th>
+            <th class="header1">Likely to Cite</th>
+            <th class="header1">May Include Reference</th>
+            <th class="header1">Might Refer to</th>
+        {% else %}
+            {% if version == 2 %}
+                <th class="header1">Acknowledgement Benefit</th>
+                <th class="header1">Citation Benefit</th>
+                <th class="header1">Acknowledgement + Likely to Cite</th>
+                <th class="header1">Acknowledgement + May Include Reference</th>
+                <th class="header1">Acknowledgement + Might Refer to</th>
+                <th class="header1">Likely to Cite</th>
+                <th class="header1">May Include Reference</th>
+                <th class="header1">Might Refer to</th>
+            {% endif %}
+        {% endif %}
+    </tr>
+  </thead>
+  <tr>
+    <th class="header1" rowspan="4">No Public Benefit</th>
+    <th class="header2">Emails Sent</th>
+    <td>{{ resultNumbers.0.0.0.0.0.sent }}</td>
+    <td>{{ resultNumbers.0.0.1.0.0.sent }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.0.0.1.4.0.sent }}</td>
+        <td>{{ resultNumbers.0.0.1.0.4.sent }}</td>
+        <td>{{ resultNumbers.0.0.1.1.0.sent }}</td>
+        <td>{{ resultNumbers.0.0.1.2.0.sent }}</td>
+        <td>{{ resultNumbers.0.0.1.3.0.sent }}</td>
+        <td>{{ resultNumbers.0.0.1.0.1.sent }}</td>
+        <td>{{ resultNumbers.0.0.1.0.2.sent }}</td>
+        <td>{{ resultNumbers.0.0.1.0.3.sent }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Emails Opened</th>
+    <td>{{ resultNumbers.0.0.0.0.0.opened }}</td>
+    <td>{{ resultNumbers.0.0.1.0.0.opened }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.0.0.1.4.0.opened }}</td>
+        <td>{{ resultNumbers.0.0.1.0.4.opened }}</td>
+        <td>{{ resultNumbers.0.0.1.1.0.opened }}</td>
+        <td>{{ resultNumbers.0.0.1.2.0.opened }}</td>
+        <td>{{ resultNumbers.0.0.1.3.0.opened }}</td>
+        <td>{{ resultNumbers.0.0.1.0.1.opened }}</td>
+        <td>{{ resultNumbers.0.0.1.0.2.opened }}</td>
+        <td>{{ resultNumbers.0.0.1.0.3.opened }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Positive Responses</th>
+    <td>{{ resultNumbers.0.0.0.0.0.positive }}</td>
+    <td>{{ resultNumbers.0.0.1.0.0.positive }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.0.0.1.4.0.positive }}</td>
+        <td>{{ resultNumbers.0.0.1.0.4.positive }}</td>
+        <td>{{ resultNumbers.0.0.1.1.0.positive }}</td>
+        <td>{{ resultNumbers.0.0.1.2.0.positive }}</td>
+        <td>{{ resultNumbers.0.0.1.3.0.positive }}</td>
+        <td>{{ resultNumbers.0.0.1.0.1.positive }}</td>
+        <td>{{ resultNumbers.0.0.1.0.2.positive }}</td>
+        <td>{{ resultNumbers.0.0.1.0.3.positive }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Negative Responses</th>
+    <td>{{ resultNumbers.0.0.0.0.0.negative }}</td>
+    <td>{{ resultNumbers.0.0.1.0.0.negative }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.0.0.1.4.0.negative }}</td>
+        <td>{{ resultNumbers.0.0.1.0.4.negative }}</td>
+        <td>{{ resultNumbers.0.0.1.1.0.negative }}</td>
+        <td>{{ resultNumbers.0.0.1.2.0.negative }}</td>
+        <td>{{ resultNumbers.0.0.1.3.0.negative }}</td>
+        <td>{{ resultNumbers.0.0.1.0.1.negative }}</td>
+        <td>{{ resultNumbers.0.0.1.0.2.negative }}</td>
+        <td>{{ resultNumbers.0.0.1.0.3.negative }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header1" rowspan="4">Public Benefit</th>
+    <th class="header2">Emails Sent</th>
+    <td>{{ resultNumbers.0.1.0.0.0.sent }}</td>
+    <td>{{ resultNumbers.0.1.1.0.0.sent }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.0.1.1.4.0.sent }}</td>
+        <td>{{ resultNumbers.0.1.1.0.4.sent }}</td>
+        <td>{{ resultNumbers.0.1.1.1.0.sent }}</td>
+        <td>{{ resultNumbers.0.1.1.2.0.sent }}</td>
+        <td>{{ resultNumbers.0.1.1.3.0.sent }}</td>
+        <td>{{ resultNumbers.0.1.1.0.1.sent }}</td>
+        <td>{{ resultNumbers.0.1.1.0.2.sent }}</td>
+        <td>{{ resultNumbers.0.1.1.0.3.sent }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Emails Opened</th>
+    <td>{{ resultNumbers.0.1.0.0.0.opened }}</td>
+    <td>{{ resultNumbers.0.1.1.0.0.opened }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.0.1.1.4.0.opened }}</td>
+        <td>{{ resultNumbers.0.1.1.0.4.opened }}</td>
+        <td>{{ resultNumbers.0.1.1.1.0.opened }}</td>
+        <td>{{ resultNumbers.0.1.1.2.0.opened }}</td>
+        <td>{{ resultNumbers.0.1.1.3.0.opened }}</td>
+        <td>{{ resultNumbers.0.1.1.0.1.opened }}</td>
+        <td>{{ resultNumbers.0.1.1.0.2.opened }}</td>
+        <td>{{ resultNumbers.0.1.1.0.3.opened }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Positive Responses</th>
+    <td>{{ resultNumbers.0.1.0.0.0.positive }}</td>
+    <td>{{ resultNumbers.0.1.1.0.0.positive }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.0.1.1.4.0.positive }}</td>
+        <td>{{ resultNumbers.0.1.1.0.4.positive }}</td>
+        <td>{{ resultNumbers.0.1.1.1.0.positive }}</td>
+        <td>{{ resultNumbers.0.1.1.2.0.positive }}</td>
+        <td>{{ resultNumbers.0.1.1.3.0.positive }}</td>
+        <td>{{ resultNumbers.0.1.1.0.1.positive }}</td>
+        <td>{{ resultNumbers.0.1.1.0.2.positive }}</td>
+        <td>{{ resultNumbers.0.1.1.0.3.positive }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Negative Responses</th>
+    <td>{{ resultNumbers.0.1.0.0.0.negative }}</td>
+    <td>{{ resultNumbers.0.1.1.0.0.negative }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.0.1.1.4.0.negative }}</td>
+        <td>{{ resultNumbers.0.1.1.0.4.negative }}</td>
+        <td>{{ resultNumbers.0.1.1.1.0.negative }}</td>
+        <td>{{ resultNumbers.0.1.1.2.0.negative }}</td>
+        <td>{{ resultNumbers.0.1.1.3.0.negative }}</td>
+        <td>{{ resultNumbers.0.1.1.0.1.negative }}</td>
+        <td>{{ resultNumbers.0.1.1.0.2.negative }}</td>
+        <td>{{ resultNumbers.0.1.1.0.3.negative }}</td>
+    {% endif %}
+  </tr>
+</table>
+
+<p><h1>Phase II Results</h1></p>
+
+<table class="table table-hover table-bordered">
+  <tr>
+    <th class="title">Phase II</th>
+    <th class="header1">Variable</th>
+    <th class="header1">No Private Benefit</th>
+    <th class="header1">Private Benefit</th>
+    {% if version == 1 or version == 2 %}
+        <th class="header1">Relevance Benefit</th>
+        <th class="header1">Citation Benefit</th>
+        <th class="header1">Relevant to Research</th>
+        <th class="header1">Within Area</th>
+        <th class="header1">On Expertise Topic</th>
+        <th class="header1">Likely to Cite</th>
+        <th class="header1">May Include Reference</th>
+        <th class="header1">Might Refer to</th>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header1" rowspan="7">No Public Benefit</th>
+    <th class="header2">Emails Sent</th>
+    <td>{{ resultNumbers.1.0.0.0.0.sent }}</td>
+    <td>{{ resultNumbers.1.0.1.0.0.sent }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.1.0.1.4.0.sent }}</td>
+        <td>{{ resultNumbers.1.0.1.0.4.sent }}</td>
+        <td>{{ resultNumbers.1.0.1.1.0.sent }}</td>
+        <td>{{ resultNumbers.1.0.1.2.0.sent }}</td>
+        <td>{{ resultNumbers.1.0.1.3.0.sent }}</td>
+        <td>{{ resultNumbers.1.0.1.0.1.sent }}</td>
+        <td>{{ resultNumbers.1.0.1.0.2.sent }}</td>
+        <td>{{ resultNumbers.1.0.1.0.3.sent }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Emails Opened</th>
+    <td>{{ resultNumbers.1.0.0.0.0.opened }}</td>
+    <td>{{ resultNumbers.1.0.1.0.0.opened }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.1.0.1.4.0.opened }}</td>
+        <td>{{ resultNumbers.1.0.1.0.4.opened }}</td>
+        <td>{{ resultNumbers.1.0.1.1.0.opened }}</td>
+        <td>{{ resultNumbers.1.0.1.2.0.opened }}</td>
+        <td>{{ resultNumbers.1.0.1.3.0.opened }}</td>
+        <td>{{ resultNumbers.1.0.1.0.1.opened }}</td>
+        <td>{{ resultNumbers.1.0.1.0.2.opened }}</td>
+        <td>{{ resultNumbers.1.0.1.0.3.opened }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Links Clicked</th>
+    <td>{{ resultNumbers.1.0.0.0.0.linksClicked }}</td>
+    <td>{{ resultNumbers.1.0.1.0.0.linksClicked }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.1.0.1.4.0.linksClicked }}</td>
+        <td>{{ resultNumbers.1.0.1.0.4.linksClicked }}</td>
+        <td>{{ resultNumbers.1.0.1.1.0.linksClicked }}</td>
+        <td>{{ resultNumbers.1.0.1.2.0.linksClicked }}</td>
+        <td>{{ resultNumbers.1.0.1.3.0.linksClicked }}</td>
+        <td>{{ resultNumbers.1.0.1.0.1.linksClicked }}</td>
+        <td>{{ resultNumbers.1.0.1.0.2.linksClicked }}</td>
+        <td>{{ resultNumbers.1.0.1.0.3.linksClicked }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Comments</th>
+    <td>{{ resultNumbers.1.0.0.0.0.comment }}</td>
+    <td>{{ resultNumbers.1.0.1.0.0.comment }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.1.0.1.4.0.comment }}</td>
+        <td>{{ resultNumbers.1.0.1.0.4.comment }}</td>
+        <td>{{ resultNumbers.1.0.1.1.0.comment }}</td>
+        <td>{{ resultNumbers.1.0.1.2.0.comment }}</td>
+        <td>{{ resultNumbers.1.0.1.3.0.comment }}</td>
+        <td>{{ resultNumbers.1.0.1.0.1.comment }}</td>
+        <td>{{ resultNumbers.1.0.1.0.2.comment }}</td>
+        <td>{{ resultNumbers.1.0.1.0.3.comment }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Ratings</th>
+    <td>{{ resultNumbers.1.0.0.0.0.rating }}</td>
+    <td>{{ resultNumbers.1.0.1.0.0.rating }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.1.0.1.4.0.rating }}</td>
+        <td>{{ resultNumbers.1.0.1.0.4.rating }}</td>
+        <td>{{ resultNumbers.1.0.1.1.0.rating }}</td>
+        <td>{{ resultNumbers.1.0.1.2.0.rating }}</td>
+        <td>{{ resultNumbers.1.0.1.3.0.rating }}</td>
+        <td>{{ resultNumbers.1.0.1.0.1.rating }}</td>
+        <td>{{ resultNumbers.1.0.1.0.2.rating }}</td>
+        <td>{{ resultNumbers.1.0.1.0.3.rating }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Suggested others</th>
+    <td>{{ resultNumbers.1.0.0.0.0.referal }}</td>
+    <td>{{ resultNumbers.1.0.1.0.0.referal }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.1.0.1.4.0.referal }}</td>
+        <td>{{ resultNumbers.1.0.1.0.4.referal }}</td>
+        <td>{{ resultNumbers.1.0.1.1.0.referal }}</td>
+        <td>{{ resultNumbers.1.0.1.2.0.referal }}</td>
+        <td>{{ resultNumbers.1.0.1.3.0.referal }}</td>
+        <td>{{ resultNumbers.1.0.1.0.1.referal }}</td>
+        <td>{{ resultNumbers.1.0.1.0.2.referal }}</td>
+        <td>{{ resultNumbers.1.0.1.0.3.referal }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Negative Responses</th>
+    <td>{{ resultNumbers.1.0.0.0.0.negative }}</td>
+    <td>{{ resultNumbers.1.0.1.0.0.negative }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.1.0.1.4.0.negative }}</td>
+        <td>{{ resultNumbers.1.0.1.0.4.negative }}</td>
+        <td>{{ resultNumbers.1.0.1.1.0.negative }}</td>
+        <td>{{ resultNumbers.1.0.1.2.0.negative }}</td>
+        <td>{{ resultNumbers.1.0.1.3.0.negative }}</td>
+        <td>{{ resultNumbers.1.0.1.0.1.negative }}</td>
+        <td>{{ resultNumbers.1.0.1.0.2.negative }}</td>
+        <td>{{ resultNumbers.1.0.1.0.3.negative }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header1" rowspan="7">Public Benefit</th>
+    <th class="header2">Emails Sent</th>
+    <td>{{ resultNumbers.1.1.0.0.0.sent }}</td>
+    <td>{{ resultNumbers.1.1.1.0.0.sent }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.1.1.1.4.0.sent }}</td>
+        <td>{{ resultNumbers.1.1.1.0.4.sent }}</td>
+        <td>{{ resultNumbers.1.1.1.1.0.sent }}</td>
+        <td>{{ resultNumbers.1.1.1.2.0.sent }}</td>
+        <td>{{ resultNumbers.1.1.1.3.0.sent }}</td>
+        <td>{{ resultNumbers.1.1.1.0.1.sent }}</td>
+        <td>{{ resultNumbers.1.1.1.0.2.sent }}</td>
+        <td>{{ resultNumbers.1.1.1.0.3.sent }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Emails Opened</th>
+    <td>{{ resultNumbers.1.1.0.0.0.opened }}</td>
+    <td>{{ resultNumbers.1.1.1.0.0.opened }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.1.1.1.4.0.opened }}</td>
+        <td>{{ resultNumbers.1.1.1.0.4.opened }}</td>
+        <td>{{ resultNumbers.1.1.1.1.0.opened }}</td>
+        <td>{{ resultNumbers.1.1.1.2.0.opened }}</td>
+        <td>{{ resultNumbers.1.1.1.3.0.opened }}</td>
+        <td>{{ resultNumbers.1.1.1.0.1.opened }}</td>
+        <td>{{ resultNumbers.1.1.1.0.2.opened }}</td>
+        <td>{{ resultNumbers.1.1.1.0.3.opened }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Links Clicked</th>
+    <td>{{ resultNumbers.1.1.0.0.0.linksClicked }}</td>
+    <td>{{ resultNumbers.1.1.1.0.0.linksClicked }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.1.1.1.4.0.linksClicked }}</td>
+        <td>{{ resultNumbers.1.1.1.0.4.linksClicked }}</td>
+        <td>{{ resultNumbers.1.1.1.1.0.linksClicked }}</td>
+        <td>{{ resultNumbers.1.1.1.2.0.linksClicked }}</td>
+        <td>{{ resultNumbers.1.1.1.3.0.linksClicked }}</td>
+        <td>{{ resultNumbers.1.1.1.0.1.linksClicked }}</td>
+        <td>{{ resultNumbers.1.1.1.0.2.linksClicked }}</td>
+        <td>{{ resultNumbers.1.1.1.0.3.linksClicked }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Comments</th>
+    <td>{{ resultNumbers.1.1.0.0.0.comment }}</td>
+    <td>{{ resultNumbers.1.1.1.0.0.comment }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.1.1.1.4.0.comment }}</td>
+        <td>{{ resultNumbers.1.1.1.0.4.comment }}</td>
+        <td>{{ resultNumbers.1.1.1.1.0.comment }}</td>
+        <td>{{ resultNumbers.1.1.1.2.0.comment }}</td>
+        <td>{{ resultNumbers.1.1.1.3.0.comment }}</td>
+        <td>{{ resultNumbers.1.1.1.0.1.comment }}</td>
+        <td>{{ resultNumbers.1.1.1.0.2.comment }}</td>
+        <td>{{ resultNumbers.1.1.1.0.3.comment }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Ratings</th>
+    <td>{{ resultNumbers.1.1.0.0.0.rating }}</td>
+    <td>{{ resultNumbers.1.1.1.0.0.rating }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.1.1.1.4.0.rating }}</td>
+        <td>{{ resultNumbers.1.1.1.0.4.rating }}</td>
+        <td>{{ resultNumbers.1.1.1.1.0.rating }}</td>
+        <td>{{ resultNumbers.1.1.1.2.0.rating }}</td>
+        <td>{{ resultNumbers.1.1.1.3.0.rating }}</td>
+        <td>{{ resultNumbers.1.1.1.0.1.rating }}</td>
+        <td>{{ resultNumbers.1.1.1.0.2.rating }}</td>
+        <td>{{ resultNumbers.1.1.1.0.3.rating }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Suggested Others</th>
+    <td>{{ resultNumbers.1.1.0.0.0.referal }}</td>
+    <td>{{ resultNumbers.1.1.1.0.0.referal }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.1.1.1.4.0.referal }}</td>
+        <td>{{ resultNumbers.1.1.1.0.4.referal }}</td>
+        <td>{{ resultNumbers.1.1.1.1.0.referal }}</td>
+        <td>{{ resultNumbers.1.1.1.2.0.referal }}</td>
+        <td>{{ resultNumbers.1.1.1.3.0.referal }}</td>
+        <td>{{ resultNumbers.1.1.1.0.1.referal }}</td>
+        <td>{{ resultNumbers.1.1.1.0.2.referal }}</td>
+        <td>{{ resultNumbers.1.1.1.0.3.referal }}</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <th class="header2">Negative Responses</th>
+    <td>{{ resultNumbers.1.1.0.0.0.negative }}</td>
+    <td>{{ resultNumbers.1.1.1.0.0.negative }}</td>
+    {% if version == 1 or version == 2 %}
+        <td>{{ resultNumbers.1.1.1.4.0.negative }}</td>
+        <td>{{ resultNumbers.1.1.1.0.4.negative }}</td>
+        <td>{{ resultNumbers.1.1.1.1.0.negative }}</td>
+        <td>{{ resultNumbers.1.1.1.2.0.negative }}</td>
+        <td>{{ resultNumbers.1.1.1.3.0.negative }}</td>
+        <td>{{ resultNumbers.1.1.1.0.1.negative }}</td>
+        <td>{{ resultNumbers.1.1.1.0.2.negative }}</td>
+        <td>{{ resultNumbers.1.1.1.0.3.negative }}</td>
+    {% endif %}
+  </tr>
+</table>
+
+<p><h1>Hours Statistics</h1></p>
+
+<table class="table table-hover table-bordered">
+  <tr>
+    <th class="title" colspan="3">Hours</th>
+    {% for i in range %}
+        <th class="header1">{{ i }}:00 - {{ i|add:"1" }}:00</th>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th class="header1" rowspan="{% if version == 1 or version == 2 %}6{% else %}{% if version == 0 %}4{% endif %}{% endif %}">Phase I</th>
+    <th class="header2" rowspan="{% if version == 1 or version == 2 %}3{% else %}{% if version == 0 %}2{% endif %}{% endif %}">No Public Benefit</th>
+    <th class="header3">No Private Benefit</th>
+    {% for obj in resultHoursNumbers %}
+        <td>
+            <p>Sent:{{ obj.0.0.0.0.0.sent }}</p>
+            <p>opened:{{ obj.0.0.0.0.0.opened }}</p>
+            <p>+:{{ obj.0.0.0.0.0.positive }}</p>
+            <p>-:{{ obj.0.0.0.0.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% if version == 1 or version == 2 %}
+  <tr>
+    <th class="header3">{% if version == 1 %}Relevance Benefit{% else %}{% if version == 2 %}Acknowledgement{% endif %}{% endif %}</th>
+    {% for obj in resultHoursNumbers %}
+        <td>
+            <p>Sent:{{ obj.0.0.1.1.0.sent }}</p>
+            <p>opened:{{ obj.0.0.1.1.0.opened }}</p>
+            <p>+:{{ obj.0.0.1.1.0.positive }}</p>
+            <p>-:{{ obj.0.0.1.1.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th class="header3">Citation Benefit</th>
+    {% for obj in resultHoursNumbers %}
+        <td>
+            <p>Sent:{{ obj.0.0.1.0.1.sent }}</p>
+            <p>opened:{{ obj.0.0.1.0.1.opened }}</p>
+            <p>+:{{ obj.0.0.1.0.1.positive }}</p>
+            <p>-:{{ obj.0.0.1.0.1.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% else %}
+    {% if version == 0 %}
+      <tr>
+        <th class="header3">Private Benefit</th>
+        {% for obj in resultHoursNumbers %}
+            <td>
+                <p>Sent:{{ obj.0.0.1.0.0.sent }}</p>
+                <p>opened:{{ obj.0.0.1.0.0.opened }}</p>
+                <p>+:{{ obj.0.0.1.0.0.positive }}</p>
+                <p>-:{{ obj.0.0.1.0.0.negative }}</p>
+            </td>
+        {% endfor %}
+      </tr>
+    {% endif %}
+{% endif %}
+  <tr>
+    <th class="header2" rowspan="{% if version == 1 or version == 2 %}3{% else %}{% if version == 0 %}2{% endif %}{% endif %}">Public Benefit</th>
+    <th class="header3">No Private Benefit</th>
+    {% for obj in resultHoursNumbers %}
+        <td>
+            <p>Sent:{{ obj.0.1.0.0.0.sent }}</p>
+            <p>opened:{{ obj.0.1.0.0.0.opened }}</p>
+            <p>+:{{ obj.0.1.0.0.0.positive }}</p>
+            <p>-:{{ obj.0.1.0.0.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% if version == 1 or version == 2 %}
+  <tr>
+    <th class="header3">{% if version == 1 %}Relevance Benefit{% else %}{% if version == 2 %}Acknowledgement{% endif %}{% endif %}</th>
+    {% for obj in resultHoursNumbers %}
+        <td>
+            <p>Sent:{{ obj.0.1.1.1.0.sent }}</p>
+            <p>opened:{{ obj.0.1.1.1.0.opened }}</p>
+            <p>+:{{ obj.0.1.1.1.0.positive }}</p>
+            <p>-:{{ obj.0.1.1.1.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th class="header3">Citation Benefit</th>
+    {% for obj in resultHoursNumbers %}
+        <td>
+            <p>Sent:{{ obj.0.1.1.0.1.sent }}</p>
+            <p>opened:{{ obj.0.1.1.0.1.opened }}</p>
+            <p>+:{{ obj.0.1.1.0.1.positive }}</p>
+            <p>-:{{ obj.0.1.1.0.1.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% else %}
+    {% if version == 0 %}
+      <tr>
+        <th class="header3">Private Benefit</th>
+        {% for obj in resultHoursNumbers %}
+            <td>
+                <p>Sent:{{ obj.0.1.1.0.0.sent }}</p>
+                <p>opened:{{ obj.0.1.1.0.0.opened }}</p>
+                <p>+:{{ obj.0.1.1.0.0.positive }}</p>
+                <p>-:{{ obj.0.1.1.0.0.negative }}</p>
+            </td>
+        {% endfor %}
+      </tr>
+    {% endif %}
+{% endif %}
+  <tr>
+    <th class="header1" rowspan="{% if version == 1 or version == 2 %}6{% else %}{% if version == 0 %}4{% endif %}{% endif %}">Phase II</th>
+    <th class="header2" rowspan="{% if version == 1 or version == 2 %}3{% else %}{% if version == 0 %}2{% endif %}{% endif %}">No Public Benefit</th>
+    <th class="header3">No Private Benefit</th>
+    {% for obj in resultHoursNumbers %}
+        <td>
+            <p>sent:{{ obj.1.0.0.0.0.sent }}</p>
+            <p>opened:{{ obj.1.0.0.0.0.opened }}</p>
+            <p>Clicked:{{ obj.1.0.0.0.0.linksClicked }}</p>
+            <p>comment:{{ obj.1.0.0.0.0.comment }}</p>
+            <p>rating:{{ obj.1.0.0.0.0.rating }}</p>
+            <p>referal:{{ obj.1.0.0.0.0.referal }}</p>
+            <p>negative:{{ obj.1.0.0.0.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% if version == 1 or version == 2 %}
+  <tr>
+    <th class="header3">{% if version == 1 %}Relevance Benefit{% else %}{% if version == 2 %}Acknowledgement{% endif %}{% endif %}</th>
+    {% for obj in resultHoursNumbers %}
+        <td>
+            <p>sent:{{ obj.1.0.1.1.0.sent }}</p>
+            <p>opened:{{ obj.1.0.1.1.0.opened }}</p>
+            <p>Clicked:{{ obj.1.0.1.1.0.linksClicked }}</p>
+            <p>comment:{{ obj.1.0.1.1.0.comment }}</p>
+            <p>rating:{{ obj.1.0.1.1.0.rating }}</p>
+            <p>referal:{{ obj.1.0.1.1.0.referal }}</p>
+            <p>negative:{{ obj.1.0.1.1.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th class="header3">Citation Benefit</th>
+    {% for obj in resultHoursNumbers %}
+        <td>
+            <p>sent:{{ obj.1.0.1.0.1.sent }}</p>
+            <p>opened:{{ obj.1.0.1.0.1.opened }}</p>
+            <p>Clicked:{{ obj.1.0.1.0.1.linksClicked }}</p>
+            <p>comment:{{ obj.1.0.1.0.1.comment }}</p>
+            <p>rating:{{ obj.1.0.1.0.1.rating }}</p>
+            <p>referal:{{ obj.1.0.1.0.1.referal }}</p>
+            <p>negative:{{ obj.1.0.1.0.1.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% else %}
+    {% if version == 0 %}
+      <tr>
+        <th class="header3">Private Benefit</th>
+        {% for obj in resultHoursNumbers %}
+            <td>
+                <p>sent:{{ obj.1.0.1.0.0.sent }}</p>
+                <p>opened:{{ obj.1.0.1.0.0.opened }}</p>
+                <p>Clicked:{{ obj.1.0.1.0.0.linksClicked }}</p>
+                <p>comment:{{ obj.1.0.1.0.0.comment }}</p>
+                <p>rating:{{ obj.1.0.1.0.0.rating }}</p>
+                <p>referal:{{ obj.1.0.1.0.0.referal }}</p>
+                <p>negative:{{ obj.1.0.1.0.0.negative }}</p>
+            </td>
+        {% endfor %}
+      </tr>
+    {% endif %}
+{% endif %}
+  <tr>
+    <th class="header2" rowspan="{% if version == 1 or version == 2 %}3{% else %}{% if version == 0 %}2{% endif %}{% endif %}">Public Benefit</th>
+    <th class="header3">No Private Benefit</th>
+    {% for obj in resultHoursNumbers %}
+        <td>
+            <p>sent:{{ obj.1.1.0.0.0.sent }}</p>
+            <p>opened:{{ obj.1.1.0.0.0.opened }}</p>
+            <p>Clicked:{{ obj.1.1.0.0.0.linksClicked }}</p>
+            <p>comment:{{ obj.1.1.0.0.0.comment }}</p>
+            <p>rating:{{ obj.1.1.0.0.0.rating }}</p>
+            <p>referal:{{ obj.1.1.0.0.0.referal }}</p>
+            <p>negative:{{ obj.1.1.0.0.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% if version == 1 or version == 2 %}
+  <tr>
+    <th class="header3">{% if version == 1 %}Relevance Benefit{% else %}{% if version == 2 %}Acknowledgement{% endif %}{% endif %}</th>
+    {% for obj in resultHoursNumbers %}
+        <td>
+            <p>sent:{{ obj.1.1.1.1.0.sent }}</p>
+            <p>opened:{{ obj.1.1.1.1.0.opened }}</p>
+            <p>Clicked:{{ obj.1.1.1.1.0.linksClicked }}</p>
+            <p>comment:{{ obj.1.1.1.1.0.comment }}</p>
+            <p>rating:{{ obj.1.1.1.1.0.rating }}</p>
+            <p>referal:{{ obj.1.1.1.1.0.referal }}</p>
+            <p>negative:{{ obj.1.1.1.1.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th class="header3">Citation Benefit</th>
+    {% for obj in resultHoursNumbers %}
+        <td>
+            <p>sent:{{ obj.1.1.1.0.1.sent }}</p>
+            <p>opened:{{ obj.1.1.1.0.1.opened }}</p>
+            <p>Clicked:{{ obj.1.1.1.0.1.linksClicked }}</p>
+            <p>comment:{{ obj.1.1.1.0.1.comment }}</p>
+            <p>rating:{{ obj.1.1.1.0.1.rating }}</p>
+            <p>referal:{{ obj.1.1.1.0.1.referal }}</p>
+            <p>negative:{{ obj.1.1.1.0.1.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% else %}
+    {% if version == 0 %}
+      <tr>
+        <th class="header3">Private Benefit</th>
+        {% for obj in resultHoursNumbers %}
+            <td>
+                <p>sent:{{ obj.1.1.1.0.0.sent }}</p>
+                <p>opened:{{ obj.1.1.1.0.0.opened }}</p>
+                <p>Clicked:{{ obj.1.1.1.0.0.linksClicked }}</p>
+                <p>comment:{{ obj.1.1.1.0.0.comment }}</p>
+                <p>rating:{{ obj.1.1.1.0.0.rating }}</p>
+                <p>referal:{{ obj.1.1.1.0.0.referal }}</p>
+                <p>negative:{{ obj.1.1.1.0.0.negative }}</p>
+            </td>
+        {% endfor %}
+      </tr>
+    {% endif %}
+{% endif %}
+</table>
+
+<p><h1>Weekdays Statistics</h1></p>
+
+<table class="table table-hover table-bordered">
+  <tr>
+    <th class="title" colspan="3">Weekdays</th>
+    <th class="header1">Mondays</th>
+    <th class="header1">Tuesdays</th>
+    <th class="header1">Wednesdays</th>
+    <th class="header1">Thursdays</th>
+    <th class="header1">Fridays</th>
+    <th class="header1">Saturdays</th>
+    <th class="header1">Sundays</th>
+  </tr>
+  <tr>
+    <th class="header1" rowspan="{% if version == 1 or version == 2 %}6{% else %}{% if version == 0 %}4{% endif %}{% endif %}">Phase I</th>
+    <th class="header2" rowspan="{% if version == 1 or version == 2 %}3{% else %}{% if version == 0 %}2{% endif %}{% endif %}">No Public Benefit</th>
+    <th class="header3">No Private Benefit</th>
+    {% for obj in resultWeekdaysNumbers %}
+        <td>
+            <p>Sent:{{ obj.0.0.0.0.0.sent }}</p>
+            <p>opened:{{ obj.0.0.0.0.0.opened }}</p>
+            <p>+:{{ obj.0.0.0.0.0.positive }}</p>
+            <p>-:{{ obj.0.0.0.0.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% if version == 1 or version == 2 %}
+  <tr>
+    <th class="header3">{% if version == 1 %}Relevance Benefit{% else %}{% if version == 2 %}Acknowledgement{% endif %}{% endif %}</th>
+    {% for obj in resultWeekdaysNumbers %}
+        <td>
+            <p>Sent:{{ obj.0.0.1.1.0.sent }}</p>
+            <p>opened:{{ obj.0.0.1.1.0.opened }}</p>
+            <p>+:{{ obj.0.0.1.1.0.positive }}</p>
+            <p>-:{{ obj.0.0.1.1.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th class="header3">Citation Benefit</th>
+    {% for obj in resultWeekdaysNumbers %}
+        <td>
+            <p>Sent:{{ obj.0.0.1.0.1.sent }}</p>
+            <p>opened:{{ obj.0.0.1.0.1.opened }}</p>
+            <p>+:{{ obj.0.0.1.0.1.positive }}</p>
+            <p>-:{{ obj.0.0.1.0.1.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% else %}
+    {% if version == 0 %}
+      <tr>
+        <th class="header3">Private Benefit</th>
+        {% for obj in resultWeekdaysNumbers %}
+            <td>
+                <p>Sent:{{ obj.0.0.1.0.0.sent }}</p>
+                <p>opened:{{ obj.0.0.1.0.0.opened }}</p>
+                <p>+:{{ obj.0.0.1.0.0.positive }}</p>
+                <p>-:{{ obj.0.0.1.0.0.negative }}</p>
+            </td>
+        {% endfor %}
+      </tr>
+    {% endif %}
+{% endif %}
+  <tr>
+    <th class="header2" rowspan="{% if version == 1 or version == 2 %}3{% else %}{% if version == 0 %}2{% endif %}{% endif %}">Public Benefit</th>
+    <th class="header3">No Private Benefit</th>
+    {% for obj in resultWeekdaysNumbers %}
+        <td>
+            <p>Sent:{{ obj.0.1.0.0.0.sent }}</p>
+            <p>opened:{{ obj.0.1.0.0.0.opened }}</p>
+            <p>+:{{ obj.0.1.0.0.0.positive }}</p>
+            <p>-:{{ obj.0.1.0.0.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% if version == 1 or version == 2 %}
+  <tr>
+    <th class="header3">{% if version == 1 %}Relevance Benefit{% else %}{% if version == 2 %}Acknowledgement{% endif %}{% endif %}</th>
+    {% for obj in resultWeekdaysNumbers %}
+        <td>
+            <p>Sent:{{ obj.0.1.1.1.0.sent }}</p>
+            <p>opened:{{ obj.0.1.1.1.0.opened }}</p>
+            <p>+:{{ obj.0.1.1.1.0.positive }}</p>
+            <p>-:{{ obj.0.1.1.1.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th class="header3">Citation Benefit</th>
+    {% for obj in resultWeekdaysNumbers %}
+        <td>
+            <p>Sent:{{ obj.0.1.1.0.1.sent }}</p>
+            <p>opened:{{ obj.0.1.1.0.1.opened }}</p>
+            <p>+:{{ obj.0.1.1.0.1.positive }}</p>
+            <p>-:{{ obj.0.1.1.0.1.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% else %}
+    {% if version == 0 %}
+      <tr>
+        <th class="header3">Private Benefit</th>
+        {% for obj in resultWeekdaysNumbers %}
+            <td>
+                <p>Sent:{{ obj.0.1.1.0.0.sent }}</p>
+                <p>opened:{{ obj.0.1.1.0.0.opened }}</p>
+                <p>+:{{ obj.0.1.1.0.0.positive }}</p>
+                <p>-:{{ obj.0.1.1.0.0.negative }}</p>
+            </td>
+        {% endfor %}
+      </tr>
+    {% endif %}
+{% endif %}
+  <tr>
+    <th class="header1" rowspan="{% if version == 1 or version == 2 %}6{% else %}{% if version == 0 %}4{% endif %}{% endif %}">Phase II</th>
+    <th class="header2" rowspan="{% if version == 1 or version == 2 %}3{% else %}{% if version == 0 %}2{% endif %}{% endif %}">No Public Benefit</th>
+    <th class="header3">No Private Benefit</th>
+    {% for obj in resultWeekdaysNumbers %}
+        <td>
+            <p>sent:{{ obj.1.0.0.0.0.sent }}</p>
+            <p>opened:{{ obj.1.0.0.0.0.opened }}</p>
+            <p>Clicked:{{ obj.1.0.0.0.0.linksClicked }}</p>
+            <p>comment:{{ obj.1.0.0.0.0.comment }}</p>
+            <p>rating:{{ obj.1.0.0.0.0.rating }}</p>
+            <p>referal:{{ obj.1.0.0.0.0.referal }}</p>
+            <p>negative:{{ obj.1.0.0.0.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% if version == 1 or version == 2 %}
+  <tr>
+    <th class="header3">{% if version == 1 %}Relevance Benefit{% else %}{% if version == 2 %}Acknowledgement{% endif %}{% endif %}</th>
+    {% for obj in resultWeekdaysNumbers %}
+        <td>
+            <p>sent:{{ obj.1.0.1.1.0.sent }}</p>
+            <p>opened:{{ obj.1.0.1.1.0.opened }}</p>
+            <p>Clicked:{{ obj.1.0.1.1.0.linksClicked }}</p>
+            <p>comment:{{ obj.1.0.1.1.0.comment }}</p>
+            <p>rating:{{ obj.1.0.1.1.0.rating }}</p>
+            <p>referal:{{ obj.1.0.1.1.0.referal }}</p>
+            <p>negative:{{ obj.1.0.1.1.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th class="header3">Citation Benefit</th>
+    {% for obj in resultWeekdaysNumbers %}
+        <td>
+            <p>sent:{{ obj.1.0.1.0.1.sent }}</p>
+            <p>opened:{{ obj.1.0.1.0.1.opened }}</p>
+            <p>Clicked:{{ obj.1.0.1.0.1.linksClicked }}</p>
+            <p>comment:{{ obj.1.0.1.0.1.comment }}</p>
+            <p>rating:{{ obj.1.0.1.0.1.rating }}</p>
+            <p>referal:{{ obj.1.0.1.0.1.referal }}</p>
+            <p>negative:{{ obj.1.0.1.0.1.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% else %}
+    {% if version == 0 %}
+      <tr>
+        <th class="header3">Private Benefit</th>
+        {% for obj in resultWeekdaysNumbers %}
+            <td>
+                <p>sent:{{ obj.1.0.1.0.0.sent }}</p>
+                <p>opened:{{ obj.1.0.1.0.0.opened }}</p>
+                <p>Clicked:{{ obj.1.0.1.0.0.linksClicked }}</p>
+                <p>comment:{{ obj.1.0.1.0.0.comment }}</p>
+                <p>rating:{{ obj.1.0.1.0.0.rating }}</p>
+                <p>referal:{{ obj.1.0.1.0.0.referal }}</p>
+                <p>negative:{{ obj.1.0.1.0.0.negative }}</p>
+            </td>
+        {% endfor %}
+      </tr>
+    {% endif %}
+{% endif %}
+  <tr>
+    <th class="header2" rowspan="{% if version == 1 or version == 2 %}3{% else %}{% if version == 0 %}2{% endif %}{% endif %}">Public Benefit</th>
+    <th class="header3">No Private Benefit</th>
+    {% for obj in resultWeekdaysNumbers %}
+        <td>
+            <p>sent:{{ obj.1.1.0.0.0.sent }}</p>
+            <p>opened:{{ obj.1.1.0.0.0.opened }}</p>
+            <p>Clicked:{{ obj.1.1.0.0.0.linksClicked }}</p>
+            <p>comment:{{ obj.1.1.0.0.0.comment }}</p>
+            <p>rating:{{ obj.1.1.0.0.0.rating }}</p>
+            <p>referal:{{ obj.1.1.0.0.0.referal }}</p>
+            <p>negative:{{ obj.1.1.0.0.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% if version == 1 or version == 2 %}
+  <tr>
+    <th class="header3">{% if version == 1 %}Relevance Benefit{% else %}{% if version == 2 %}Acknowledgement{% endif %}{% endif %}</th>
+    {% for obj in resultWeekdaysNumbers %}
+        <td>
+            <p>sent:{{ obj.1.1.1.1.0.sent }}</p>
+            <p>opened:{{ obj.1.1.1.1.0.opened }}</p>
+            <p>Clicked:{{ obj.1.1.1.1.0.linksClicked }}</p>
+            <p>comment:{{ obj.1.1.1.1.0.comment }}</p>
+            <p>rating:{{ obj.1.1.1.1.0.rating }}</p>
+            <p>referal:{{ obj.1.1.1.1.0.referal }}</p>
+            <p>negative:{{ obj.1.1.1.1.0.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th class="header3">Citation Benefit</th>
+    {% for obj in resultWeekdaysNumbers %}
+        <td>
+            <p>sent:{{ obj.1.1.1.0.1.sent }}</p>
+            <p>opened:{{ obj.1.1.1.0.1.opened }}</p>
+            <p>Clicked:{{ obj.1.1.1.0.1.linksClicked }}</p>
+            <p>comment:{{ obj.1.1.1.0.1.comment }}</p>
+            <p>rating:{{ obj.1.1.1.0.1.rating }}</p>
+            <p>referal:{{ obj.1.1.1.0.1.referal }}</p>
+            <p>negative:{{ obj.1.1.1.0.1.negative }}</p>
+        </td>
+    {% endfor %}
+  </tr>
+{% else %}
+    {% if version == 0 %}
+      <tr>
+        <th class="header3">Private Benefit</th>
+        {% for obj in resultWeekdaysNumbers %}
+            <td>
+                <p>sent:{{ obj.1.1.1.0.0.sent }}</p>
+                <p>opened:{{ obj.1.1.1.0.0.opened }}</p>
+                <p>Clicked:{{ obj.1.1.1.0.0.linksClicked }}</p>
+                <p>comment:{{ obj.1.1.1.0.0.comment }}</p>
+                <p>rating:{{ obj.1.1.1.0.0.rating }}</p>
+                <p>referal:{{ obj.1.1.1.0.0.referal }}</p>
+                <p>negative:{{ obj.1.1.1.0.0.negative }}</p>
+            </td>
+        {% endfor %}
+      </tr>
+    {% endif %}
+{% endif %}
+</table>
+</div>
+
+<br>
+<p><h1>Results on the Map</h1></p>
+
+<form action="">
+<table class="table table-hover table-bordered">
+  <thead>
+    <tr>
+        <th class="title" colspan="2">Phase I Map Markers Selection</th>
+        <th class="header1">Email 1 Sent</th>
+        <th class="header1">Email 1 Opened</th>
+        <th class="header1">Negative Response</th>
+        <th class="header1">Positive Response</th>
+        <th class="header1">Email Communication</th>
+    </tr>
+  </thead>
+  <tr>
+    <th class="header1" rowspan="{% if version == 1 or version == 2 %}3{% else %}{% if version == 0 %}2{% endif %}{% endif %}">No Public Benefit</th>
+    <th class="header2">No Private Benefit</th>
+    <td><input type="checkbox" class="mapSelector" name="sent1NoPuNoPr"> 
+        <img src="{{ MEDIA_URL }}sent1_yellow.svg" alt="Sent 1 No Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="opened1NoPuNoPr">  
+        <img src="{{ MEDIA_URL }}opened1_yellow.svg" alt="Opened 1 No Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="negative1NoPuNoPr">  
+        <img src="{{ MEDIA_URL }}negative1_yellow.svg" alt="Negative 1 No Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="positiveNoPuNoPr">  
+        <img src="{{ MEDIA_URL }}positive_yellow.svg" alt="Positive No Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="communicationNoPuNoPr">  
+        <img src="{{ MEDIA_URL }}communication_yellow.svg" alt="Communication No Public No Private" height="20" width="20"></td>
+  </tr>
+{% if version == 1 or version == 2 %}
+  <tr>
+    <th class="header2">{% if version == 1 %}Relevance Benefit{% else %}{% if version == 2 %}Acknowledgement{% endif %}{% endif %}</th>
+    <td><input type="checkbox" class="mapSelector" name="sent1NoPuR"> 
+        <img src="{{ MEDIA_URL }}sent1_violet.svg" alt="Sent 1 No Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="opened1NoPuR"> 
+        <img src="{{ MEDIA_URL }}opened1_violet.svg" alt="Opened 1 No Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="negative1NoPuR"> 
+        <img src="{{ MEDIA_URL }}negative1_violet.svg" alt="Negative 1 No Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="positiveNoPuR"> 
+        <img src="{{ MEDIA_URL }}positive_violet.svg" alt="Positive No Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="communicationNoPuR"> 
+        <img src="{{ MEDIA_URL }}communication_violet.svg" alt="Communication Public Relevant" height="20" width="20"></td>
+  </tr>
+  <tr>
+    <th class="header2">Citation Benefit</th>
+    <td><input type="checkbox" class="mapSelector" name="sent1NoPuC"> 
+        <img src="{{ MEDIA_URL }}sent1_blue.svg" alt="Sent 1 No Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="opened1NoPuC"> 
+        <img src="{{ MEDIA_URL }}opened1_blue.svg" alt="Opened 1 No Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="negative1NoPuC"> 
+        <img src="{{ MEDIA_URL }}negative1_blue.svg" alt="Negative 1 No Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="positiveNoPuC"> 
+        <img src="{{ MEDIA_URL }}positive_blue.svg" alt="Positive No Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="communicationNoPuC"> 
+        <img src="{{ MEDIA_URL }}communication_blue.svg" alt="Communication Public Citation" height="20" width="20"></td>
+  </tr>
+{% else %}
+    {% if version == 0 %}
+      <tr>
+        <th class="header2">Private Benefit</th>
+        <td><input type="checkbox" class="mapSelector" name="sent1NoPuPr"> 
+            <img src="{{ MEDIA_URL }}sent1_blue.svg" alt="Sent 1 No Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="opened1NoPuPr"> 
+            <img src="{{ MEDIA_URL }}opened1_blue.svg" alt="Opened 1 No Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="negative1NoPuPr"> 
+            <img src="{{ MEDIA_URL }}negative1_blue.svg" alt="Negative 1 No Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="positiveNoPuPr"> 
+            <img src="{{ MEDIA_URL }}positive_blue.svg" alt="Positive No Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="communicationNoPuPr"> 
+            <img src="{{ MEDIA_URL }}communication_blue.svg" alt="Communication No Public Private" height="20" width="20"></td>
+      </tr>
+    {% endif %}
+{% endif %}
+  <tr>
+    <th class="header1" rowspan="{% if version == 1 or version == 2 %}3{% else %}{% if version == 0 %}2{% endif %}{% endif %}">Public Benefit</th>
+    <th class="header2">No Private Benefit</th>
+    <td><input type="checkbox" class="mapSelector" name="sent1PuNoPr"> 
+        <img src="{{ MEDIA_URL }}sent1_red.svg" alt="Sent 1 Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="opened1PuNoPr"> 
+        <img src="{{ MEDIA_URL }}opened1_red.svg" alt="Opened 1 Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="negative1PuNoPr"> 
+        <img src="{{ MEDIA_URL }}negative1_red.svg" alt="Negative 1 Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="positivePuNoPr"> 
+        <img src="{{ MEDIA_URL }}positive_red.svg" alt="Positive Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="communicationPuNoPr"> 
+        <img src="{{ MEDIA_URL }}communication_red.svg" alt="Communication Public No Private" height="20" width="20"></td>
+  </tr>
+{% if version == 1 or version == 2 %}
+  <tr>
+    <th class="header2">{% if version == 1 %}Relevance Benefit{% else %}{% if version == 2 %}Acknowledgement{% endif %}{% endif %}</th>
+    <td><input type="checkbox" class="mapSelector" name="sent1PuR"> 
+        <img src="{{ MEDIA_URL }}sent1_orange.svg" alt="Sent 1 Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="opened1PuR"> 
+        <img src="{{ MEDIA_URL }}opened1_orange.svg" alt="Opened 1 Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="negative1PuR"> 
+        <img src="{{ MEDIA_URL }}negative1_orange.svg" alt="Negative 1 Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="positivePuR"> 
+        <img src="{{ MEDIA_URL }}positive_orange.svg" alt="Positive Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="communicationPuR"> 
+        <img src="{{ MEDIA_URL }}communication_orange.svg" alt="Communication Public Relevant" height="20" width="20"></td>
+  </tr>
+  <tr>
+    <th class="header2">Citation Benefit</th>
+    <td><input type="checkbox" class="mapSelector" name="sent1PuC"> 
+        <img src="{{ MEDIA_URL }}sent1_green.svg" alt="Sent 1 Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="opened1PuC"> 
+        <img src="{{ MEDIA_URL }}opened1_green.svg" alt="Opened 1 Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="negative1PuC"> 
+        <img src="{{ MEDIA_URL }}negative1_green.svg" alt="Negative 1 Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="positivePuC"> 
+        <img src="{{ MEDIA_URL }}positive_green.svg" alt="Positive Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="communicationPuC"> 
+        <img src="{{ MEDIA_URL }}communication_green.svg" alt="Communication Public Citation" height="20" width="20"></td>
+  </tr>
+{% else %}
+    {% if version == 0 %}
+      <tr>
+        <th class="header2">Private Benefit</th>
+        <td><input type="checkbox" class="mapSelector" name="sent1PuPr"> 
+            <img src="{{ MEDIA_URL }}sent1_green.svg" alt="Sent 1 Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="opened1PuPr"> 
+            <img src="{{ MEDIA_URL }}opened1_green.svg" alt="Opened 1 Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="negative1PuPr"> 
+            <img src="{{ MEDIA_URL }}negative1_green.svg" alt="Negative 1 Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="positivePuPr"> 
+            <img src="{{ MEDIA_URL }}positive_green.svg" alt="Positive Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="communicationPuPr"> 
+            <img src="{{ MEDIA_URL }}communication_green.svg" alt="Communication Public Private" height="20" width="20"></td>
+      </tr>
+    {% endif %}
+{% endif %}
+    <tr>
+        <th class="title" colspan="2">Phase II Map Markers Selection</th>
+        <th class="header1">Email 2 Sent</th>
+        <th class="header1">Email 2 Opened</th>
+        <th class="header1">Negative Response</th>
+        <th class="header1">Link Clicked</th>
+        <th class="header1">Comment</th>
+        <th class="header1">Rating</th>
+        <th class="header1">Referred</th>
+    </tr>
+  <tr>
+    <th class="header1" rowspan="{% if version == 1 or version == 2 %}3{% else %}{% if version == 0 %}2{% endif %}{% endif %}">No Public Benefit</th>
+    <th class="header2">No Private Benefit</th>
+    <td><input type="checkbox" class="mapSelector" name="sent2NoPuNoPr"> 
+        <img src="{{ MEDIA_URL }}sent2_yellow.svg" alt="Sent 2 No Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="opened2NoPuNoPr"> 
+        <img src="{{ MEDIA_URL }}opened2_yellow.svg" alt="Opened 2 No Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="negative2NoPuNoPr"> 
+        <img src="{{ MEDIA_URL }}negative2_yellow.svg" alt="Negative 2 No Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="clickedNoPuNoPr"> 
+        <img src="{{ MEDIA_URL }}clicked_yellow.svg" alt="Clicked No Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="commentNoPuNoPr"> 
+        <img src="{{ MEDIA_URL }}comment_yellow.svg" alt="Comment No Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="ratingNoPuNoPr"> 
+        <img src="{{ MEDIA_URL }}rating_yellow.svg" alt="Rating No Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="referredNoPuNoPr"> 
+        <img src="{{ MEDIA_URL }}referred_yellow.svg" alt="Referred No Public No Private" height="20" width="20"></td>
+  </tr>
+{% if version == 1 or version == 2 %}
+  <tr>
+    <th class="header2">{% if version == 1 %}Relevance Benefit{% else %}{% if version == 2 %}Acknowledgement{% endif %}{% endif %}</th>
+    <td><input type="checkbox" class="mapSelector" name="sent2NoPuR"> 
+        <img src="{{ MEDIA_URL }}sent2_violet.svg" alt="Sent 2 No Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="opened2NoPuR"> 
+        <img src="{{ MEDIA_URL }}opened2_violet.svg" alt="Opened 2 No Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="negative2NoPuR"> 
+        <img src="{{ MEDIA_URL }}negative2_violet.svg" alt="Negative 2 No Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="clickedNoPuR"> 
+        <img src="{{ MEDIA_URL }}clicked_violet.svg" alt="Clicked No Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="commentNoPuR"> 
+        <img src="{{ MEDIA_URL }}comment_violet.svg" alt="Comment No Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="ratingNoPuR"> 
+        <img src="{{ MEDIA_URL }}rating_violet.svg" alt="Rating No Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="referredNoPuR"> 
+        <img src="{{ MEDIA_URL }}referred_violet.svg" alt="Referred No Public Relevant" height="20" width="20"></td>
+  </tr>
+  <tr>
+    <th class="header2">Citation Benefit</th>
+    <td><input type="checkbox" class="mapSelector" name="sent2NoPuC"> 
+        <img src="{{ MEDIA_URL }}sent2_blue.svg" alt="Sent 2 No Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="opened2NoPuC"> 
+        <img src="{{ MEDIA_URL }}opened2_blue.svg" alt="Opened 2 No Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="negative2NoPuC"> 
+        <img src="{{ MEDIA_URL }}negative2_blue.svg" alt="Negative 2 No Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="clickedNoPuC"> 
+        <img src="{{ MEDIA_URL }}clicked_blue.svg" alt="Clicked No Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="commentNoPuC"> 
+        <img src="{{ MEDIA_URL }}comment_blue.svg" alt="Comment No Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="ratingNoPuC"> 
+        <img src="{{ MEDIA_URL }}rating_blue.svg" alt="Rating No Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="referredNoPuC"> 
+        <img src="{{ MEDIA_URL }}referred_blue.svg" alt="Referred No Public Citation" height="20" width="20"></td>
+  </tr>
+{% else %}
+    {% if version == 0 %}
+      <tr>
+        <th class="header2">Private Benefit</th>
+        <td><input type="checkbox" class="mapSelector" name="sent2NoPuPr"> 
+            <img src="{{ MEDIA_URL }}sent2_blue.svg" alt="Sent 2 No Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="opened2NoPuPr"> 
+            <img src="{{ MEDIA_URL }}opened2_blue.svg" alt="Opened 2 No Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="negative2NoPuPr"> 
+            <img src="{{ MEDIA_URL }}negative2_blue.svg" alt="Negative 2 No Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="clickedNoPuPr"> 
+            <img src="{{ MEDIA_URL }}clicked_blue.svg" alt="Clicked No Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="commentNoPuPr"> 
+            <img src="{{ MEDIA_URL }}comment_blue.svg" alt="Comment No Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="ratingNoPuPr"> 
+            <img src="{{ MEDIA_URL }}rating_blue.svg" alt="Rating No Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="referredNoPuPr"> 
+            <img src="{{ MEDIA_URL }}referred_blue.svg" alt="Referred No Public Private" height="20" width="20"></td>
+      </tr>
+    {% endif %}
+{% endif %}
+  <tr>
+    <th class="header1" rowspan="{% if version == 1 or version == 2 %}3{% else %}{% if version == 0 %}2{% endif %}{% endif %}">Public Benefit</th>
+    <th class="header2">No Private Benefit</th>
+    <td><input type="checkbox" class="mapSelector" name="sent2PuNoPr"> 
+        <img src="{{ MEDIA_URL }}sent2_red.svg" alt="Sent 2 Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="opened2PuNoPr"> 
+        <img src="{{ MEDIA_URL }}opened2_red.svg" alt="Opened 2 Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="negative2PuNoPr"> 
+        <img src="{{ MEDIA_URL }}negative2_red.svg" alt="Negative 2 Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="clickedPuNoPr"> 
+        <img src="{{ MEDIA_URL }}clicked_red.svg" alt="Clicked Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="commentPuNoPr"> 
+        <img src="{{ MEDIA_URL }}comment_red.svg" alt="Comment Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="ratingPuNoPr"> 
+        <img src="{{ MEDIA_URL }}rating_red.svg" alt="Rating Public No Private" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="referredPuNoPr"> 
+        <img src="{{ MEDIA_URL }}referred_red.svg" alt="Referred Public No Private" height="20" width="20"></td>
+  </tr>
+{% if version == 1 or version == 2 %}
+  <tr>
+    <th class="header2">Relevance Benefit</th>
+    <td><input type="checkbox" class="mapSelector" name="sent2PuR"> 
+        <img src="{{ MEDIA_URL }}sent2_orange.svg" alt="Sent 2 Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="opened2PuR"> 
+        <img src="{{ MEDIA_URL }}opened2_orange.svg" alt="Opened 2 Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="negative2PuR"> 
+        <img src="{{ MEDIA_URL }}negative2_orange.svg" alt="Opened 2 Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="clickedPuR"> 
+        <img src="{{ MEDIA_URL }}clicked_orange.svg" alt="Clicked 2 Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="commentPuR"> 
+        <img src="{{ MEDIA_URL }}comment_orange.svg" alt="Comment 2 Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="ratingPuR"> 
+        <img src="{{ MEDIA_URL }}rating_orange.svg" alt="Rating 2 Public Relevant" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="referredPuR"> 
+        <img src="{{ MEDIA_URL }}referred_orange.svg" alt="Referred 2 Public Relevant" height="20" width="20"></td>
+  </tr>
+  <tr>
+    <th class="header2">Citation Benefit</th>
+    <td><input type="checkbox" class="mapSelector" name="sent2PuC"> 
+        <img src="{{ MEDIA_URL }}sent2_green.svg" alt="Sent 2 Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="opened2PuC"> 
+        <img src="{{ MEDIA_URL }}opened2_green.svg" alt="Opened 2 Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="negative2PuC"> 
+        <img src="{{ MEDIA_URL }}negative2_green.svg" alt="Negative 2 Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="clickedPuC"> 
+        <img src="{{ MEDIA_URL }}clicked_green.svg" alt="Clicked Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="commentPuC"> 
+        <img src="{{ MEDIA_URL }}comment_green.svg" alt="Comment Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="ratingPuC"> 
+        <img src="{{ MEDIA_URL }}rating_green.svg" alt="Rating Public Citation" height="20" width="20"></td>
+    <td><input type="checkbox" class="mapSelector" name="referredPuC"> 
+        <img src="{{ MEDIA_URL }}referred_green.svg" alt="Referred Public Citation" height="20" width="20"></td>
+  </tr>
+{% else %}
+    {% if version == 0 %}
+      <tr>
+        <th class="header2">Private Benefit</th>
+        <td><input type="checkbox" class="mapSelector" name="sent2PuPr"> 
+            <img src="{{ MEDIA_URL }}sent2_green.svg" alt="Sent 2 Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="opened2PuPr"> 
+            <img src="{{ MEDIA_URL }}opened2_green.svg" alt="Opened 2 Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="negative2PuPr"> 
+            <img src="{{ MEDIA_URL }}negative2_green.svg" alt="Negative 2 Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="clickedPuPr"> 
+            <img src="{{ MEDIA_URL }}clicked_green.svg" alt="Clicked Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="commentPuPr"> 
+            <img src="{{ MEDIA_URL }}comment_green.svg" alt="Comment Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="ratingPuPr"> 
+            <img src="{{ MEDIA_URL }}rating_green.svg" alt="Rating Public Private" height="20" width="20"></td>
+        <td><input type="checkbox" class="mapSelector" name="referredPuPr"> 
+            <img src="{{ MEDIA_URL }}referred_green.svg" alt="Referred Public Private" height="20" width="20"></td>
+      </tr>
+    {% endif %}
+{% endif %}
+</table>
+</FORM>
+
+<script type="text/javascript">
+
+    var markersArray = [];
+    var map = null;
+
+    function initialize() {
+        var mapOptions = {
+          center: { lat: 27.994401, lng: 13.359375},
+          animation: google.maps.Animation.DROP,
+          scrollwheel: false,
+          zoom: 3
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+
+        var myLatlng = null;
+        {% for mapElement in mapElements %}
+            {% if mapElement.phase == 0 %}
+                {% if mapElement.public == 0 %}
+                    {% if mapElement.private == 0 %}
+                        {% if mapElement.sent == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}sent1_yellow.svg";
+                            var markerClass = "sent1NoPuNoPr";
+                        {% endif %}
+                        {% if mapElement.opened == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}opened1_yellow.svg";
+                            var markerClass = "opened1NoPuNoPr";
+                        {% endif %}
+                        {% if mapElement.negative == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}negative1_yellow.svg";
+                            var markerClass = "negative1NoPuNoPr";
+                        {% endif %}
+                        {% if mapElement.positive == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}positive_yellow.svg";
+                            var markerClass = "positiveNoPuNoPr";
+                        {% endif %}
+                        {% if mapElement.emailCommunication == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}communication_yellow.svg";
+                            var markerClass = "communicationNoPuNoPr";
+                        {% endif %}
+                    {% endif %}
+                    {% if mapElement.private == 1 %}
+                        {% if version == 1 or version == 2 %}
+                            {% if mapElement.relevance == 1 %}
+                                {% if mapElement.sent == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}sent1_violet.svg";
+                                    var markerClass = "sent1NoPuR";
+                                {% endif %}
+                                {% if mapElement.opened == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}opened1_violet.svg";
+                                    var markerClass = "opened1NoPuR";
+                                {% endif %}
+                                {% if mapElement.negative == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}negative1_violet.svg";
+                                    var markerClass = "negative1NoPuR";
+                                {% endif %}
+                                {% if mapElement.positive == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}positive_violet.svg";
+                                    var markerClass = "positiveNoPuR";
+                                {% endif %}
+                                {% if mapElement.emailCommunication == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}communication_violet.svg";
+                                    var markerClass = "communicationNoPuR";
+                                {% endif %}
+                            {% endif %}
+                            {% if mapElement.citation == 1 %}
+                                {% if mapElement.sent == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}sent1_blue.svg";
+                                    var markerClass = "sent1NoPuC";
+                                {% endif %}
+                                {% if mapElement.opened == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}opened1_blue.svg";
+                                    var markerClass = "opened1NoPuC";
+                                {% endif %}
+                                {% if mapElement.negative == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}negative1_blue.svg";
+                                    var markerClass = "negative1NoPuC";
+                                {% endif %}
+                                {% if mapElement.positive == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}positive_blue.svg";
+                                    var markerClass = "positiveNoPuC";
+                                {% endif %}
+                                {% if mapElement.emailCommunication == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}communication_blue.svg";
+                                    var markerClass = "communicationNoPuC";
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        {% if version == 0 %}
+                            {% if mapElement.sent == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}sent1_blue.svg";
+                                var markerClass = "sent1NoPuPr";
+                            {% endif %}
+                            {% if mapElement.opened == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}opened1_blue.svg";
+                                var markerClass = "opened1NoPuPr";
+                            {% endif %}
+                            {% if mapElement.negative == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}negative1_blue.svg";
+                                var markerClass = "negative1NoPuPr";
+                            {% endif %}
+                            {% if mapElement.positive == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}positive_blue.svg";
+                                var markerClass = "positiveNoPuPr";
+                            {% endif %}
+                            {% if mapElement.emailCommunication == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}communication_blue.svg";
+                                var markerClass = "communicationNoPuPr";
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                {% if mapElement.public == 1 %}
+                    {% if mapElement.private == 0 %}
+                        {% if mapElement.sent == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}sent1_red.svg";
+                            var markerClass = "sent1PuNoPr";
+                        {% endif %}
+                        {% if mapElement.opened == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}opened1_red.svg";
+                            var markerClass = "opened1PuNoPr";
+                        {% endif %}
+                        {% if mapElement.negative == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}negative1_red.svg";
+                            var markerClass = "negative1PuNoPr";
+                        {% endif %}
+                        {% if mapElement.positive == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}positive_red.svg";
+                            var markerClass = "positivePuNoPr";
+                        {% endif %}
+                        {% if mapElement.emailCommunication == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}communication_red.svg";
+                            var markerClass = "communicationPuNoPr";
+                        {% endif %}
+                    {% endif %}
+                    {% if mapElement.private == 1 %}
+                        {% if version == 1 or version == 2 %}
+                            {% if mapElement.relevance == 1 %}
+                                {% if mapElement.sent == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}sent1_orange.svg";
+                                    var markerClass = "sent1PuR";
+                                {% endif %}
+                                {% if mapElement.opened == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}opened1_orange.svg";
+                                    var markerClass = "opened1PuR";
+                                {% endif %}
+                                {% if mapElement.negative == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}negative1_orange.svg";
+                                    var markerClass = "negative1PuR";
+                                {% endif %}
+                                {% if mapElement.positive == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}positive_orange.svg";
+                                    var markerClass = "positivePuR";
+                                {% endif %}
+                                {% if mapElement.emailCommunication == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}communication_orange.svg";
+                                    var markerClass = "communicationPuR";
+                                {% endif %}
+                            {% endif %}
+                            {% if mapElement.citation == 1 %}
+                                {% if mapElement.sent == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}sent1_green.svg";
+                                    var markerClass = "sent1PuC";
+                                {% endif %}
+                                {% if mapElement.opened == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}opened1_green.svg";
+                                    var markerClass = "opened1PuC";
+                                {% endif %}
+                                {% if mapElement.negative == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}negative1_green.svg";
+                                    var markerClass = "negative1PuC";
+                                {% endif %}
+                                {% if mapElement.positive == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}positive_green.svg";
+                                    var markerClass = "positivePuC";
+                                {% endif %}
+                                {% if mapElement.emailCommunication == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}communication_green.svg";
+                                    var markerClass = "communicationPuC";
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        {% if version == 0 %}
+                            {% if mapElement.sent == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}sent1_green.svg";
+                                var markerClass = "sent1PuPr";
+                            {% endif %}
+                            {% if mapElement.opened == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}opened1_green.svg";
+                                var markerClass = "opened1PuPr";
+                            {% endif %}
+                            {% if mapElement.negative == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}negative1_green.svg";
+                                var markerClass = "negative1PuPr";
+                            {% endif %}
+                            {% if mapElement.positive == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}positive_green.svg";
+                                var markerClass = "positivePuPr";
+                            {% endif %}
+                            {% if mapElement.emailCommunication == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}communication_green.svg";
+                                var markerClass = "communicationPuPr";
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            {% if mapElement.phase == 1 %}
+                {% if mapElement.public == 0 %}
+                    {% if mapElement.private == 0 %}
+                        {% if mapElement.sent == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}sent2_yellow.svg";
+                            var markerClass = "sent2NoPuNoPr";
+                        {% endif %}
+                        {% if mapElement.opened == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}opened2_yellow.svg";
+                            var markerClass = "opened2NoPuNoPr";
+                        {% endif %}
+                        {% if mapElement.negative == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}negative2_yellow.svg";
+                            var markerClass = "negative2NoPuNoPr";
+                        {% endif %}
+                        {% if mapElement.linksClicked == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}clicked_yellow.svg";
+                            var markerClass = "clickedNoPuNoPr";
+                        {% endif %}
+                        {% if mapElement.comment == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}comment_yellow.svg";
+                            var markerClass = "commentNoPuNoPr";
+                        {% endif %}
+                        {% if mapElement.rating == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}rating_yellow.svg";
+                            var markerClass = "ratingNoPuNoPr";
+                        {% endif %}
+                        {% if mapElement.referal == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}referred_yellow.svg";
+                            var markerClass = "referredNoPuNoPr";
+                        {% endif %}
+                    {% endif %}
+                    {% if mapElement.private == 1 %}
+                        {% if version == 1 or version == 2 %}
+                            {% if mapElement.relevance == 1 %}
+                                {% if mapElement.sent == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}sent2_violet.svg";
+                                    var markerClass = "sent2NoPuR";
+                                {% endif %}
+                                {% if mapElement.opened == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}opened2_violet.svg";
+                                    var markerClass = "opened2NoPuR";
+                                {% endif %}
+                                {% if mapElement.negative == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}negative2_violet.svg";
+                                    var markerClass = "negative2NoPuR";
+                                {% endif %}
+                                {% if mapElement.linksClicked == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}clicked_violet.svg";
+                                    var markerClass = "clickedNoPuR";
+                                {% endif %}
+                                {% if mapElement.comment == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}comment_violet.svg";
+                                    var markerClass = "commentNoPuR";
+                                {% endif %}
+                                {% if mapElement.rating == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}rating_violet.svg";
+                                    var markerClass = "ratingNoPuR";
+                                {% endif %}
+                                {% if mapElement.referal == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}referred_violet.svg";
+                                    var markerClass = "referredNoPuR";
+                                {% endif %}
+                            {% endif %}
+                            {% if mapElement.citation == 1 %}
+                                {% if mapElement.sent == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}sent2_blue.svg";
+                                    var markerClass = "sent2NoPuC";
+                                {% endif %}
+                                {% if mapElement.opened == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}opened2_blue.svg";
+                                    var markerClass = "opened2NoPuC";
+                                {% endif %}
+                                {% if mapElement.negative == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}negative2_blue.svg";
+                                    var markerClass = "negative2NoPuC";
+                                {% endif %}
+                                {% if mapElement.linksClicked == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}clicked_blue.svg";
+                                    var markerClass = "clickedNoPuC";
+                                {% endif %}
+                                {% if mapElement.comment == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}comment_blue.svg";
+                                    var markerClass = "commentNoPuC";
+                                {% endif %}
+                                {% if mapElement.rating == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}rating_blue.svg";
+                                    var markerClass = "ratingNoPuC";
+                                {% endif %}
+                                {% if mapElement.referal == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}referred_blue.svg";
+                                    var markerClass = "referredNoPuC";
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        {% if version == 0 %}
+                            {% if mapElement.sent == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}sent2_blue.svg";
+                                var markerClass = "sent2NoPuPr";
+                            {% endif %}
+                            {% if mapElement.opened == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}opened2_blue.svg";
+                                var markerClass = "opened2NoPuPr";
+                            {% endif %}
+                            {% if mapElement.negative == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}negative2_blue.svg";
+                                var markerClass = "negative2NoPuPr";
+                            {% endif %}
+                            {% if mapElement.linksClicked == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}clicked_blue.svg";
+                                var markerClass = "clickedNoPuPr";
+                            {% endif %}
+                            {% if mapElement.comment == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}comment_blue.svg";
+                                var markerClass = "commentNoPuPr";
+                            {% endif %}
+                            {% if mapElement.rating == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}rating_blue.svg";
+                                var markerClass = "ratingNoPuPr";
+                            {% endif %}
+                            {% if mapElement.referal == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}referred_blue.svg";
+                                var markerClass = "referredNoPuPr";
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                {% if mapElement.public == 1 %}
+                    {% if mapElement.private == 0 %}
+                        {% if mapElement.sent == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}sent2_red.svg";
+                            var markerClass = "sent2PuNoPr";
+                        {% endif %}
+                        {% if mapElement.opened == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}opened2_red.svg";
+                            var markerClass = "opened2PuNoPr";
+                        {% endif %}
+                        {% if mapElement.negative == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}negative2_red.svg";
+                            var markerClass = "negative2PuNoPr";
+                        {% endif %}
+                        {% if mapElement.linksClicked == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}clicked_red.svg";
+                            var markerClass = "clickedPuNoPr";
+                        {% endif %}
+                        {% if mapElement.comment == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}comment_red.svg";
+                            var markerClass = "commentPuNoPr";
+                        {% endif %}
+                        {% if mapElement.rating == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}rating_red.svg";
+                            var markerClass = "ratingPuNoPr";
+                        {% endif %}
+                        {% if mapElement.referal == 1 %}
+                            var iconImage = "{{ MEDIA_URL }}referred_red.svg";
+                            var markerClass = "referredPuNoPr";
+                        {% endif %}
+                    {% endif %}
+                    {% if mapElement.private == 1 %}
+                        {% if version == 1 or version == 2 %}
+                            {% if mapElement.relevance == 1 %}
+                                {% if mapElement.sent == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}sent2_orange.svg";
+                                    var markerClass = "sent2PuR";
+                                {% endif %}
+                                {% if mapElement.opened == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}opened2_orange.svg";
+                                    var markerClass = "opened2PuR";
+                                {% endif %}
+                                {% if mapElement.negative == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}negative2_orange.svg";
+                                    var markerClass = "negative2PuR";
+                                {% endif %}
+                                {% if mapElement.linksClicked == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}clicked_orange.svg";
+                                    var markerClass = "clickedPuR";
+                                {% endif %}
+                                {% if mapElement.comment == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}comment_orange.svg";
+                                    var markerClass = "commentPuR";
+                                {% endif %}
+                                {% if mapElement.rating == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}rating_orange.svg";
+                                    var markerClass = "ratingPuR";
+                                {% endif %}
+                                {% if mapElement.referal == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}referred_orange.svg";
+                                    var markerClass = "referredPuR";
+                                {% endif %}
+                            {% endif %}
+                            {% if mapElement.citation == 1 %}
+                                {% if mapElement.sent == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}sent2_green.svg";
+                                    var markerClass = "sent2PuC";
+                                {% endif %}
+                                {% if mapElement.opened == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}opened2_green.svg";
+                                    var markerClass = "opened2PuC";
+                                {% endif %}
+                                {% if mapElement.negative == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}negative2_green.svg";
+                                    var markerClass = "negative2PuC";
+                                {% endif %}
+                                {% if mapElement.linksClicked == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}clicked_green.svg";
+                                    var markerClass = "clickedPuC";
+                                {% endif %}
+                                {% if mapElement.comment == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}comment_green.svg";
+                                    var markerClass = "commentPuC";
+                                {% endif %}
+                                {% if mapElement.rating == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}rating_green.svg";
+                                    var markerClass = "ratingPuC";
+                                {% endif %}
+                                {% if mapElement.referal == 1 %}
+                                    var iconImage = "{{ MEDIA_URL }}referred_green.svg";
+                                    var markerClass = "referredPuC";
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        {% if version == 0 %}
+                            {% if mapElement.sent == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}sent2_green.svg";
+                                var markerClass = "sent2PuPr";
+                            {% endif %}
+                            {% if mapElement.opened == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}opened2_green.svg";
+                                var markerClass = "opened2PuPr";
+                            {% endif %}
+                            {% if mapElement.negative == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}negative2_green.svg";
+                                var markerClass = "negative2PuPr";
+                            {% endif %}
+                            {% if mapElement.linksClicked == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}clicked_green.svg";
+                                var markerClass = "clickedPuPr";
+                            {% endif %}
+                            {% if mapElement.comment == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}comment_green.svg";
+                                var markerClass = "commentPuPr";
+                            {% endif %}
+                            {% if mapElement.rating == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}rating_green.svg";
+                                var markerClass = "ratingPuPr";
+                            {% endif %}
+                            {% if mapElement.referal == 1 %}
+                                var iconImage = "{{ MEDIA_URL }}referred_green.svg";
+                                var markerClass = "referredPuPr";
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+
+            {% if mapElement.latitude != null and mapElement.longitude != null %}
+                myLatlng = new google.maps.LatLng({{ mapElement.latitude }}, {{ mapElement.longitude }});
+                markersArray.push(new google.maps.Marker({
+                    position: myLatlng,
+                    title: "{{ mapElement.firstName }} {{ mapElement.lastName }}",
+                    icon: iconImage,
+                    }));
+                markersArray[markersArray.length - 1].className = markerClass;
+                // markersArray[markersArray.length - 1].setMap(map);
+            {% endif %}
+        {% endfor %}
+
+    }
+
+    function loadScript() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp' +
+          '&signed_in=true&callback=initialize';
+        document.body.appendChild(script);
+
+        $(".mapSelector").change(function(){
+            var className = $(this).attr('name');
+            
+            for (var i = 0; i < markersArray.length; i++) {
+                if (markersArray[i].className == className) {
+                    if($(this).is(":checked")) {
+                        markersArray[i].setMap(map);
+                    }
+                    else {
+                        markersArray[i].setMap(null);
+                    }
+                }
+            }
+        });
+
+    }
+
+    window.onload = loadScript;
+</script>
+
+<div style="height: 1000px; margin: 0; padding: 0;" id="map-canvas"></div>
+
+<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
+
+{% endblock %}

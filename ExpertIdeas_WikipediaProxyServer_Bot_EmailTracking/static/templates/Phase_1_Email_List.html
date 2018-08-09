@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+<!-- {% block jumbotron %} -->
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+<!--   <div class="jumbotron">
+    <div class="container">
+      <h1>This is us!</h1>
+      <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+      <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
+    </div>
+  </div>
+ -->
+ <!-- {% endblock %} -->
+
+{% block content %}
+
+<div class="table-responsive">
+<table class="table table-hover table-bordered" style="width:100%">
+  <thead>
+    <tr>
+        <th>#</th>
+        <th>Expert's Name</th>
+        <th>Send email</th> 
+        <th>Email Subject</th> 
+        <th>Study Page</th> 
+        <th>Email Sent Date</th> 
+        <th># Emails Sent</th> 
+        <th># Citations</th>
+        <th>Domain of Expertise</th>
+        <th>Specialization</th>
+        <th># Author's Lastname</th>
+        <th>Withdrawal</th>
+        <th>Returning User</th>
+        <th>Link Clicked</th>
+        <th>Rating</th>
+        <th>Comment</th>
+        <th>Publication Title</th>
+        <th>Publication Citations</th>
+        <th>Wikipedia Page</th>
+        <th>Edit Protection Level</th>
+        <th># Views (last 90 days)</th>
+    </tr>
+  </thead>
+{% for obj in papersExpertsWikiPages %}
+  <tr>
+    <td title="Expert's number">{{ obj.expertNumber }}</td>
+    <td title="Expert's Name">{{ obj.expertName|capfirst }}</td>
+    <td title="Click to send the email to the expert.">
+        <form class="emailForm" action="" method="post"> {% csrf_token %}
+            <input type="hidden" name="expertwikipage" value="{{ obj.expertwikipagePk }}">
+            <input type="submit" class="btn btn-success emailBtn" value="{{ obj.email }}">
+            <!-- {% if obj.emailCount < 5 %} {{ "disabled" }} {% endif %}> -->
+        </form>
+    </td> 
+    <td title="Click to preview the email.">
+        <a href='http://wikipediastudy-env.us-east-1.elasticbeanstalk.com/emailpreview?userpage={{ obj.expertwikipagePk }}'>{{ obj.subject }}</a>
+    </td> 
+    <td title="Click to preview the study page.">
+		<a href='http://wikipediastudy-env.us-east-1.elasticbeanstalk.com/JoinWikipedians?userpage={{ obj.expertwikipagePk }}&preview=1'>Study Page</a>
+	</td> 
+    <td title="Email Sent Date">{% if obj.emailCount != 0 %} {{ obj.emailSent }} {% else %} Not sent yet {% endif %}</td>
+    <td title="# Emails Sent">{{ obj.emailCount }}</td>
+    <td title="# Citations">{{ obj.citations }}</td>
+    <td title="Domain of Expertise">{{ obj.domain }}</td>
+    <td title="Specialization">{{ obj.specialization }}</td>
+    <td title="# Author's Lastname">{{ obj.last_name_ocurances }}</td>
+    <td title="Shows if the expert has opted out of the study.">{{ obj.withdrawal }}</td>
+    <td title="Shows if the expert has opted out of the study, and then returned.">{{ obj.returned }}</td>
+    <td title="Link Clicked">{{ obj.link_clicked }}</td>
+    <td title="Rating">{{ obj.rating }}</td>
+    <td title="Comment">{{ obj.comment }}</td>
+    <td title="Publication Title"><a href="{{ obj.publicationUrl }}">{{ obj.publicationTitle }}</a></td>
+    <td title="Publication Citations">{{ obj.publicationCitations }}</td>
+    <td title="Wikipedia Page"><a href="{{ obj.wikipageUrl }}">{{ obj.wikipageTitle }}</a></td>
+    <td title="Edit Protection Level">{{ obj.wikipageEdit_protection_level }}</td>
+    <td title="# Views (last 90 days)">{{ obj.wikipageViews_last_90_days }}</td>
+  </tr>
+{% empty %}
+    <tr><td>No data yet.<td></tr>
+{% endfor %}
+</table>
+</div>
+
+<script>
+
+    $( "#Phase_1_EmailList" ).attr("class","active");
+    $( "#Phase_1_Dropdown" ).attr("class","active");
+    // Attach a click handler to the button.
+    $( "form.emailForm" ).submit(function( event ) {
+     
+        // Stop form from submitting normally
+        event.preventDefault();
+
+        csrfmiddlewaretoken = $(this).children('input[name=csrfmiddlewaretoken]').val();
+        userpage = $(this).children('input[name=expertwikipage]').val();
+
+        // Send the data using post
+        var jqxhr = $.post( "SendEmail", { 'userpage': userpage,
+            'csrfmiddlewaretoken': csrfmiddlewaretoken } )
+            .done(function() {
+                alert( "The email is sent." );
+            })
+            .fail(function() {
+                alert( "Unfortunately there is a problem. The email is not sent. Please try again." );
+            })
+    });
+</script>
+
+{% endblock %}

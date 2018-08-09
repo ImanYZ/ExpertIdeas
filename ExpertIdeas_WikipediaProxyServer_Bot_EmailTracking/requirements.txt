@@ -1,0 +1,17 @@
+Django==1.6.5
+mysql-python==1.2.5
+django-storages
+django-registration==1.0
+wsgiref==0.1.2
+dj-database-url==0.2.2
+dj-static==0.0.5
+static==0.4
+South==1.0
+beautifulsoup4==4.3.2
+virtualenv==1.9.1
+httplib2
+requests
+iso8601
+geopy
+pytz
+tzwhere

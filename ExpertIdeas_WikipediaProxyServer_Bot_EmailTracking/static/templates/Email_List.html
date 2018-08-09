@@ -1,0 +1,475 @@
+{% extends 'base.html' %}
+
+<!-- {% block jumbotron %} -->
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+<!--   <div class="jumbotron">
+    <div class="container">
+      <h1>This is us!</h1>
+      <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+      <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
+    </div>
+  </div>
+ -->
+ <!-- {% endblock %} -->
+
+{% block content %}
+
+<div class="table-responsive">
+<table class="table table-hover table-bordered" style="width:100%">
+  <thead>
+    <tr>
+        <th>#</th>
+        <th>Expert's First Name</th>
+        <th>Expert's Last Name</th>
+<!--         <th>Expert's Title</th> -->
+<!--         <th>In Expert's Discipline</th>   -->
+        <th>In Specialty Area</th>
+        <th>Public Factor</th>
+        <th>Private Factor</th>
+
+        {% if version == 1 %}
+            <th>Relevance Factor</th>
+            <th>Likely to Cite</th>
+            <th>May Include Reference</th>
+            <th>Might Refer to</th>
+            <th>Relevant to Research</th>
+            <th>Within Area</th>
+            <th>On Expertise Topic</th>
+        {% else %}
+            {% if version == 2 %}
+                <th>Private Benefit First</th>
+                <th>Acknowledgement</th>
+                <th>Likely to Cite</th>
+                <th>May Include Reference</th>
+                <th>Might Refer to</th>
+                <th>Likely to Cite + Acknowledgement</th>
+                <th>May Include Reference + Acknowledgement</th>
+                <th>Might Refer to + Acknowledgement</th>
+                <th>Especially popular</th>
+                <th>Highly visible</th>
+                <th>Highly popular</th>
+            {% endif %}
+        {% endif %}
+
+        {% if not user.is_anonymous %}
+            <th style="{% if pageType != '' and pageType != 'Phase_1_EmailList' and pageType != 'Phase_2_EmailList' and pageType != 'Phase_2_ApprovalPending' and pageType != 'Phase_3_EmailList' %} {{ 'display:none;' }} {% endif %}">Date and Time</th>
+            <th style="{% if pageType != '' and pageType != 'Phase_1_EmailList' and pageType != 'Phase_2_EmailList' and pageType != 'Phase_2_ApprovalPending' and pageType != 'Phase_3_EmailList' %} {{ 'display:none;' }} {% endif %}">{% if pageType != 'Phase_2_ApprovalPending' %} Send email {% else %} Submit to Talk Page {% endif %}</th>
+        {% endif %}
+        <th>Location</th>
+        <th>School</th>
+        <th>Email Subject</th>
+        <th>Email Sent Date</th>
+        <th># Emails Sent</th>
+        <th>Email Opened</th>
+<!--         <th># Citations</th> -->
+        <th>Domain of Expertise</th>
+<!--         <th>Specialization</th> -->
+        {% if pageType == 'Phase_2_EmailList' or pageType == 'Phase_2_Waiting' or pageType == 'Phase_2_Not_Interested' or pageType == 'Phase_2_ApprovalPending' or pageType == 'Phase_2_Approved' %}
+            <th>Link Clicked</th>
+            <th>Study Page</th>
+            <th>Rating</th>
+            <th>Comment</th>
+            <th>Suggested Others</th>
+            <th>Publication</th>
+            <!-- <th>Publication Citations</th> -->
+            <th>Wikipedia Page</th>
+            <!-- <th>Edit Protection Level</th> -->
+            <th># Views over the last month</th>
+        {% endif %}
+        {% if pageType == 'Phase_3_EmailList' or pageType == 'Phase_3_Waiting' or pageType == 'Phase_3_Interested' %}
+            <th>Rating</th>
+            <th>Comment</th>
+            <th>Suggested Others</th>
+            <th>Publication</th>
+            <!-- <th>Publication Citations</th> -->
+            <th>Wikipedia Page</th>
+            <th>Talk Page</th>
+            <th>Post on Talk Page</th>
+            <th>Article Link Clicked</th>
+            <th>Talkpage Link Clicked</th>
+            <th>Post Link Clicked</th>
+            <th>Tutorial Link Clicked</th>
+            <!-- <th>Edit Protection Level</th> -->
+            <th># Views (last 90 days)</th>
+        {% endif %}
+        <th>Email Communication</th>
+    </tr>
+  </thead>
+{% for obj in papersExpertsWikiPages %}
+  <tr>
+    <form class="emailForm" action="" method="post"> {% csrf_token %}
+        <td title="Expert's number">{{ obj.expertNumber }}</td>
+        <td title="Expert's First Name">{{ obj.firstname|capfirst }}</td>
+        <td title="Expert's Last Name">{{ obj.expertName|capfirst }}</td>
+<!--         <td title="Expert's Title">{{ obj.expertTitle|capfirst }}</td> -->
+<!--         <td class="disiplineTD" title="Check to incorporate the expert's Discipline in the email.">
+            <input type="checkbox" name="DisciplineCheck" {% if obj.inDiscipline == True %} {{ "checked" }} {% endif %} {% if studyPhase == 'Phase2' %} {{ "disabled" }} {% endif %}> <label for="DisciplineCheck">Discipline</label>
+        </td>-->
+        <td class="specialtyTD" title="Check to incorporate the expert's Specialty Area in the email.">
+            <input type="checkbox" name="SpecialtyCheck" {% if obj.inSpecialtyArea == True %} {{ "checked" }} {% endif %}
+                {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %} {{ "disabled" }} {% endif %}>
+            <label for="SpecialtyCheck">Specialty</label>
+        </td>
+        <td class="highviewspast90daysTD" title="Check to incorporate high # views in the past 90 days in the email.">
+            <input type="checkbox" name="highviewspast90daysCheck" {% if obj.highviewspast90days == True %} {{ "checked" }} {% endif %}
+                {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %} {{ "disabled" }} {% endif %}>
+            <label for="highviewspast90daysCheck">High # Views in the Past 90 Days</label>
+        </td>
+        <td class="citedpublicationTD" title="Check to incorporate citation of the expert's publication in the email.">
+            <input type="checkbox" name="citedpublicationCheck" {% if obj.citedpublication == True %} {{ "checked" }} {% endif %}
+                {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %} {{ "disabled" }} {% endif %}>
+            <label for="citedpublicationCheck">Cited Publication</label>
+        </td>
+
+        {% if version == 2 %}
+            <td class="private_firstTD" title="Check to put the private benefit before the public benefit.">
+                <input type="checkbox" name="private_firstCheck" {% if obj.private_first == True %} {{ "checked" }} {% endif %}
+                    {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %} {{ "disabled" }} {% endif %}>
+                <label for="private_firstCheck">Private First</label>
+            </td>
+        {% endif %}
+        {% if version == 1 or version == 2 %}
+            <td class="relevance_factorTD" title="Check to incorporate {% if version == 1 %}Relevance{% else %}{% if version == 2 %}Acknowledgement{% endif %}{% endif %} factor in the email.">
+                <input type="checkbox" name="relevance_factorCheck" {% if obj.relevance_factor == True %} {{ "checked" }} {% endif %}
+                    {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %} {{ "disabled" }} {% endif %}>
+                <label for="relevance_factorCheck">{% if version == 1 %}Relevance{% else %}{% if version == 2 %}Acknowledgement{% endif %}{% endif %} Factor</label>
+            </td>
+            <td class="likely_to_citeTD" title="Check to incorporate Likely to Cite factor in the email.">
+                <input type="checkbox" name="likely_to_citeCheck" {% if obj.likely_to_cite == True %} {{ "checked" }} {% endif %}
+                    {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %} {{ "disabled" }} {% endif %}>
+                <label for="likely_to_citeCheck">Likely to Cite</label>
+            </td>
+            <td class="may_include_referenceTD" title="Check to incorporate May Include Reference factor in the email.">
+                <input type="checkbox" name="may_include_referenceCheck" {% if obj.may_include_reference == True %} {{ "checked" }} {% endif %}
+                    {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %} {{ "disabled" }} {% endif %}>
+                <label for="may_include_referenceCheck">May Include Reference</label>
+            </td>
+            <td class="might_refer_toTD" title="Check to incorporate Might Refer to factor in the email.">
+                <input type="checkbox" name="might_refer_toCheck" {% if obj.might_refer_to == True %} {{ "checked" }} {% endif %}
+                    {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %} {{ "disabled" }} {% endif %}>
+                <label for="might_refer_toCheck">Might Refer to</label>
+            </td>
+            <td class="relevant_to_researchTD" title="Check to incorporate {% if version == 1 %}Relevance to research{% else %}{% if version == 2 %}Likely to Cite + Acknowledgement{% endif %}{% endif %} factor in the email.">
+                <input type="checkbox" name="relevant_to_researchCheck" {% if obj.relevant_to_research == True %} {{ "checked" }} {% endif %}
+                    {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %} {{ "disabled" }} {% endif %}>
+                <label for="relevant_to_researchCheck">{% if version == 1 %}Relevance to research{% else %}{% if version == 2 %}Likely to Cite + Acknowledgement{% endif %}{% endif %}</label>
+            </td>
+            <td class="within_areaTD" title="Check to incorporate {% if version == 1 %}Within area{% else %}{% if version == 2 %}May Include Reference + Acknowledgement{% endif %}{% endif %} factor in the email.">
+                <input type="checkbox" name="within_areaCheck" {% if obj.within_area == True %} {{ "checked" }} {% endif %}
+                    {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %} {{ "disabled" }} {% endif %}>
+                <label for="within_areaCheck">{% if version == 1 %}Within area{% else %}{% if version == 2 %}May Include Reference + Acknowledgement{% endif %}{% endif %}</label>
+            </td>
+            <td class="on_expertise_topicTD" title="Check to incorporate {% if version == 1 %}On expertise topic{% else %}{% if version == 2 %}Might Refer to + Acknowledgement{% endif %}{% endif %} factor in the email.">
+                <input type="checkbox" name="on_expertise_topicCheck" {% if obj.on_expertise_topic == True %} {{ "checked" }} {% endif %}
+                    {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %} {{ "disabled" }} {% endif %}>
+                <label for="on_expertise_topicCheck">{% if version == 1 %}On expertise topic{% else %}{% if version == 2 %}Might Refer to + Acknowledgement{% endif %}{% endif %} factor</label>
+            </td>
+        {% endif %}
+        {% if version == 2 %}
+            <td class="especially_popularTD" title="Check to incorporate Especially popular factor in the email.">
+                <input type="checkbox" name="especially_popularCheck" {% if obj.especially_popular == True %} {{ "checked" }} {% endif %}
+                    {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %} {{ "disabled" }} {% endif %}>
+                <label for="especially_popularCheck">Especially popular</label>
+            </td>
+            <td class="highly_visibleTD" title="Check to incorporate Highly visible factor in the email.">
+                <input type="checkbox" name="highly_visibleCheck" {% if obj.highly_visible == True %} {{ "checked" }} {% endif %}
+                    {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %} {{ "disabled" }} {% endif %}>
+                <label for="highly_visibleCheck">Highly visible</label>
+            </td>
+            <td class="highly_popularTD" title="Check to incorporate Highly popular factor in the email.">
+                <input type="checkbox" name="highly_popularCheck" {% if obj.highly_popular == True %} {{ "checked" }} {% endif %}
+                    {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %} {{ "disabled" }} {% endif %}>
+                <label for="highly_popularCheck">Highly popular</label>
+            </td>
+        {% endif %}
+
+        {% if not user.is_anonymous %}
+            <td style="{% if pageType != '' and pageType != 'Phase_1_EmailList' and pageType != 'Phase_2_EmailList' and pageType != 'Phase_2_ApprovalPending' and pageType != 'Phase_3_EmailList' %} {{ 'display:none;' }} {% endif %}" title="Current Date and Time in the city or country of the institution the subject is affiliated with.">{{ obj.now_time }}</td> 
+            <td class="userpageTD" title="Click to {% if pageType != 'Phase_2_ApprovalPending' %} send the email to the expert {% else %} Submit the comment to the corresponding Talk Page {% endif %}." style="{% if pageType != '' and pageType != 'Phase_1_EmailList' and pageType != 'Phase_2_EmailList' and pageType != 'Phase_2_ApprovalPending' and pageType != 'Phase_3_EmailList' %} {{ 'display:none;' }} {% endif %}">
+                {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %}
+                    <input type="hidden" name="expertwikipage" value="{{ obj.expertwikipubArray.0.expertwikipagePk }}">
+                {% endif %}
+                <input type="hidden" name="expertId" value="{{ obj.expertId }}">
+                {% if pageType != 'Phase_2_ApprovalPending' %}
+                    <input type="submit" class="btn btn-success emailBtn" value="{{ obj.email }}">
+                {% endif %}
+                {% if pageType == 'Phase_2_ApprovalPending' %}
+                    {% for expertwikipubObj in obj.expertwikipubArray %}
+                        <input type="submit" class="btn btn-success emailBtn" name="{{ expertwikipubObj.expertwikipagePk }}" value="Talk: {{ expertwikipubObj.wikipageTitle }}">
+                    {% endfor %}
+                {% endif %}
+                <!-- {% if obj.emailCount < 5 %} {{ "disabled" }} {% endif %}> -->
+            </td>
+        {% endif %}
+        <td title="Location of the institution the participant is affiliated with.">{{ obj.location }}</td> 
+        <td title="Affiliation of the the participant.">{{ obj.school }}</td> 
+        <td title="Click to preview the email.">
+            <a class="EmailPreview" target="_blank" href=''>{{ obj.subject }}</a>
+        </td> 
+        <td title="Email Sent Date">{% if obj.emailCount != 0 %} {{ obj.emailSent }} {% else %} Not sent yet {% endif %}</td>
+        <td title="# Emails Sent">{{ obj.emailCount }}</td>
+        {% if pageType == 'Phase_1_EmailList' or pageType == 'Phase_1_Waiting' or pageType == 'Phase_1_Interested' or pageType == 'Phase_1_Not_Interested' %}
+            <td title="Email Opened">{{ obj.email1_opened }}</td>
+        {% endif %}
+        {% if pageType == 'Phase_2_EmailList' or pageType == 'Phase_2_Waiting' or pageType == 'Phase_2_Not_Interested' or pageType == 'Phase_2_ApprovalPending' or pageType == 'Phase_2_Approved' %}
+            <td title="Email Opened">{{ obj.email2_opened }}</td>
+        {% endif %}
+        {% if pageType == 'Phase_3_EmailList' or pageType == 'Phase_3_Waiting' or pageType == 'Phase_3_Interested' %}
+            <td title="Email Opened">{{ obj.email3_opened }}</td>
+        {% endif %}
+<!--         <td title="# Citations">{{ obj.citations }}</td> -->
+        <td title="Domain of Expertise">{{ obj.domain }}</td>
+<!--         <td title="Specialization">{{ obj.specialization }}</td> -->
+        {% if pageType == 'Phase_2_EmailList' or pageType == 'Phase_2_Waiting' or pageType == 'Phase_2_Not_Interested' or pageType == 'Phase_2_ApprovalPending' or pageType == 'Phase_2_Approved' %}
+            <td title="Link Clicked">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li>{{ expertwikipubObj.link_clicked }}</li>
+                {% endfor %}
+                </ol>
+            </td>
+            <td title="Click to preview the study page.">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li><a class="StudyPagePreview" target="_blank"
+                        href='JoinWikipedians?userpage={{ expertwikipubObj.expertwikipagePk }}&preview=1'>
+                        {{ expertwikipubObj.wikipageTitle }}</a></li>
+                {% endfor %}
+                </ol>
+            </td> 
+            <td title="Rating">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li>{{ expertwikipubObj.rating }}</li>
+                {% endfor %}
+                </ol>
+            </td>
+            <td title="Comment">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li>{{ expertwikipubObj.comment }}</li>
+                {% endfor %}
+                </ol>
+            </td>
+            <td title="Suggested Others">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li>{{ expertwikipubObj.expertwikipubrefereesNum }}</li>
+                {% endfor %}
+                </ol>
+            </td>
+            <td title="Publication Title">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li><a class="PublicationTitle" target="_blank"
+                        href='{{ expertwikipubObj.publicationUrl }}'>
+                        {{ expertwikipubObj.publicationTitle }}</a></li>
+                {% endfor %}
+                </ol>
+            </td>
+            <!-- <td title="Publication Citations">{{ obj.publicationCitations }}</td> -->
+            <td title="Wikipedia Page">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li><a class="WikipediaPage" target="_blank"
+                        href='{{ expertwikipubObj.wikipageUrl }}'>
+                        {{ expertwikipubObj.wikipageTitle }}</a></li>
+                {% endfor %}
+                </ol>
+            </td>
+            <!-- <td title="Edit Protection Level">{{ obj.wikipageEdit_protection_level }}</td> -->
+            <td title="# Views (last 90 days)">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li>{{ expertwikipubObj.wikipageViews_last_90_days }}</li>
+                {% endfor %}
+                </ol>
+            </td>
+        {% endif %}
+        {% if pageType == 'Phase_3_EmailList' or pageType == 'Phase_3_Waiting' or pageType == 'Phase_3_Interested' %}
+            <td title="Rating">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li>{{ expertwikipubObj.rating }}</li>
+                {% endfor %}
+                </ol>
+            </td>
+            <td title="Comment">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li>{{ expertwikipubObj.comment }}</li>
+                {% endfor %}
+                </ol>
+            </td>
+            <td title="Suggested Others">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li>{{ expertwikipubObj.expertwikipubrefereesNum }}</li>
+                {% endfor %}
+                </ol>
+            </td>
+            <td title="Publication Title">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li><a class="PublicationTitle" target="_blank"
+                        href='{{ expertwikipubObj.publicationUrl }}'>
+                        {{ expertwikipubObj.publicationTitle }}</a></li>
+                {% endfor %}
+                </ol>
+            </td>
+            <!-- <td title="Publication Citations">{{ obj.publicationCitations }}</td> -->
+            <td title="Wikipedia Page">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li><a class="WikipediaPage" target="_blank"
+                        href='{{ expertwikipubObj.wikipageUrl }}'>
+                        {{ expertwikipubObj.wikipageTitle }}</a></li>
+                {% endfor %}
+                </ol>
+            </td>
+            <td title="Talk Page">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li><a class="TalkPage" target="_blank"
+                        href='{{ expertwikipubObj.talkPageHyperlink }}'>
+                        {{ expertwikipubObj.wikipageTitle }}</a></li>
+                {% endfor %}
+                </ol>
+            </td>
+            <td title="Post on Talk Page">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li><a class="PostOnTalkPage" target="_blank"
+                        href='{{ expertwikipubObj.postHyperlink }}'>
+                        {{ expertwikipubObj.wikipageTitle }}</a></li>
+                {% endfor %}
+                </ol>
+            </td>
+            <td title="Article Link Clicked">
+                <ol>
+                    <li>{{ obj.article_clicked }}</li>
+                </ol>
+            </td>
+            <td title="Talkpage Link Clicked">
+                <ol>
+                    <li>{{ obj.talkpage_clicked }}</li>
+                </ol>
+            </td>
+            <td title="Post Link Clicked">
+                <ol>
+                    <li>{{ obj.post_clicked }}</li>
+                </ol>
+            </td>
+            <td title="Tutorial Link Clicked">
+                <ol>
+                    <li>{{ obj.tutorial_clicked }}</li>
+                </ol>
+            </td>
+            <!-- <td title="Edit Protection Level">{{ obj.wikipageEdit_protection_level }}</td> -->
+            <td title="# Views (last 90 days)">
+                <ol>
+                {% for expertwikipubObj in obj.expertwikipubArray %}
+                    <li>{{ expertwikipubObj.wikipageViews_last_90_days }}</li>
+                {% endfor %}
+                </ol>
+            </td>
+        {% endif %}
+        <td title="Email Communication">{{ obj.emailCommunication }}</td>
+        
+    </form>
+  </tr>
+{% empty %}
+    <tr><td>No data yet.<td></tr>
+{% endfor %}
+</table>
+</div>
+
+<script>
+
+    // Remove clicked attribute from all buttons other than the one is being clicked right now.
+    $("input[type=submit]").click(function() {
+        $("input[type=submit]", $(this).parents("form")).removeAttr("clicked");
+        $(this).attr("clicked", "true");
+    });
+
+    {% if not user.is_anonymous %}
+    // Attach a click handler to the form.
+    $( "form.emailForm" ).submit(function( event ) {
+     
+        // Stop form from submitting normally
+        event.preventDefault();
+
+        var parentTrElement = $( this ).parent();
+
+        csrfmiddlewaretoken = $(this).next('input[name=csrfmiddlewaretoken]').val();
+        userId = parentTrElement.children('td.userpageTD').children('input[name=expertId]').val();
+        {% if studyPhase == 'Phase2' or studyPhase == 'Phase3' %}
+            userpage = $("input[type=submit][clicked=true]").attr('name');
+        {% endif %}
+        inDiscipline = parentTrElement.children('td.disiplineTD').children('input[name=DisciplineCheck]').prop('checked');
+        inSpecialtyArea = parentTrElement.children('td.specialtyTD').children('input[name=SpecialtyCheck]').prop('checked');
+        highviewspast90days = parentTrElement.children('td.highviewspast90daysTD').children('input[name=highviewspast90daysCheck]').prop('checked');
+        citedpublication = parentTrElement.children('td.citedpublicationTD').children('input[name=citedpublicationCheck]').prop('checked');
+        private_first = parentTrElement.children('td.private_firstTD').children('input[name=private_firstCheck]').prop('checked');
+        relevance_factor = parentTrElement.children('td.relevance_factorTD').children('input[name=relevance_factorCheck]').prop('checked');
+        likely_to_cite = parentTrElement.children('td.likely_to_citeTD').children('input[name=likely_to_citeCheck]').prop('checked');
+        may_include_reference = parentTrElement.children('td.may_include_referenceTD').children('input[name=may_include_referenceCheck]').prop('checked');
+        might_refer_to = parentTrElement.children('td.might_refer_toTD').children('input[name=might_refer_toCheck]').prop('checked');
+        relevant_to_research = parentTrElement.children('td.relevant_to_researchTD').children('input[name=relevant_to_researchCheck]').prop('checked');
+        within_area = parentTrElement.children('td.within_areaTD').children('input[name=within_areaCheck]').prop('checked');
+        on_expertise_topic = parentTrElement.children('td.on_expertise_topicTD').children('input[name=on_expertise_topicCheck]').prop('checked');
+        especially_popular = parentTrElement.children('td.especially_popularTD').children('input[name=especially_popularCheck]').prop('checked');
+        highly_visible = parentTrElement.children('td.highly_visibleTD').children('input[name=highly_visibleCheck]').prop('checked');
+        highly_popular = parentTrElement.children('td.highly_popularTD').children('input[name=highly_popularCheck]').prop('checked');
+
+        {% if pageType != 'Phase_2_ApprovalPending' %}
+            // Send the data using post
+            var jqxhr = $.post( "SendEmail", { 'userid': userId,  'phase': '{{ pageType }}', 'inDiscipline': inDiscipline, 'inSpecialtyArea': inSpecialtyArea, 'highviewspast90days': highviewspast90days, 'citedpublication': citedpublication, 'private_first': private_first, 'relevance_factor': relevance_factor, 'likely_to_cite': likely_to_cite, 'may_include_reference': may_include_reference, 'might_refer_to': might_refer_to, 'relevant_to_research': relevant_to_research, 'within_area': within_area, 'on_expertise_topic': on_expertise_topic, 'especially_popular': especially_popular, 'highly_visible': highly_visible, 'highly_popular': highly_popular, 'csrfmiddlewaretoken': csrfmiddlewaretoken } )
+                .done(function() {
+                    parentTrElement.hide("fast");
+                })
+                .fail(function() {
+                    alert( "Unfortunately there is a problem. The email is not sent. Please try again." );
+                });
+        {% else %}
+            // Send the data using post
+            var jqxhr = $.post( "posttotalkpage", { 'userpage': userpage, 'csrfmiddlewaretoken': csrfmiddlewaretoken } )
+                .done(function() {
+                    $("input[type=submit][clicked=true]").removeAttr("clicked");
+                    $("input[type=submit][clicked=true]").prop('disabled', true);
+                })
+                .fail(function() {
+                    alert( "Unfortunately there is a problem. The comment is not posted. Please try again." );
+                });
+        {% endif %}
+    });
+    {% endif %}
+    $( ".EmailPreview" ).click(function( event ) {
+     
+        // Stop form from submitting normally
+        event.preventDefault();
+
+        var parentTrElement = $(this).parent().parent();
+
+        userId = parentTrElement.children('td.userpageTD').children('input[name=expertId]').val();
+        inDiscipline = parentTrElement.children('td.disiplineTD').children('input[name=DisciplineCheck]').is(':checked');
+        inSpecialtyArea = parentTrElement.children('td.specialtyTD').children('input[name=SpecialtyCheck]').is(':checked');
+        highviewspast90days = parentTrElement.children('td.highviewspast90daysTD').children('input[name=highviewspast90daysCheck]').prop('checked');
+        citedpublication = parentTrElement.children('td.citedpublicationTD').children('input[name=citedpublicationCheck]').prop('checked');
+        private_first = parentTrElement.children('td.private_firstTD').children('input[name=private_firstCheck]').prop('checked');
+        relevance_factor = parentTrElement.children('td.relevance_factorTD').children('input[name=relevance_factorCheck]').prop('checked');
+        likely_to_cite = parentTrElement.children('td.likely_to_citeTD').children('input[name=likely_to_citeCheck]').prop('checked');
+        may_include_reference = parentTrElement.children('td.may_include_referenceTD').children('input[name=may_include_referenceCheck]').prop('checked');
+        might_refer_to = parentTrElement.children('td.might_refer_toTD').children('input[name=might_refer_toCheck]').prop('checked');
+        relevant_to_research = parentTrElement.children('td.relevant_to_researchTD').children('input[name=relevant_to_researchCheck]').prop('checked');
+        within_area = parentTrElement.children('td.within_areaTD').children('input[name=within_areaCheck]').prop('checked');
+        on_expertise_topic = parentTrElement.children('td.on_expertise_topicTD').children('input[name=on_expertise_topicCheck]').prop('checked');
+        especially_popular = parentTrElement.children('td.especially_popularTD').children('input[name=especially_popularCheck]').prop('checked');
+        highly_visible = parentTrElement.children('td.highly_visibleTD').children('input[name=highly_visibleCheck]').prop('checked');
+        highly_popular = parentTrElement.children('td.highly_popularTD').children('input[name=highly_popularCheck]').prop('checked');
+
+        window.open("emailpreview?userid=" + userId + "&phase={{pageType}}&inDiscipline=" + inDiscipline + "&inSpecialtyArea=" + inSpecialtyArea + "&highviewspast90days=" + highviewspast90days + "&citedpublication=" + citedpublication + "&private_first=" + private_first + "&relevance_factor=" + relevance_factor + "&likely_to_cite=" + likely_to_cite + "&may_include_reference=" + may_include_reference + "&might_refer_to=" + might_refer_to + "&relevant_to_research=" + relevant_to_research + "&within_area=" + within_area + "&on_expertise_topic=" + on_expertise_topic + "&especially_popular=" + especially_popular + "&highly_visible=" + highly_visible + "&highly_popular=" + highly_popular);
+    });
+</script>
+
+{% endblock %}
